@@ -9,64 +9,80 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView;
-    private boolean flag = false;
-    private Button button;
-    private LinearLayout.LayoutParams buttonLayoutParams;
-    private float scale;
-    private int buttonWidth;
-    private int margins;
 
-    int mParent = LinearLayout.LayoutParams.MATCH_PARENT;
-    int wContent = LinearLayout.LayoutParams.WRAP_CONTENT;
+    private TextView textView;
+    private float scale;
+    private  Button button;
+    private int buttonWidth;
+    private int buttonHeight;
+    private RelativeLayout.LayoutParams buttonLayoutParams;
+    private boolean flag = false;
+
+    int mParent = RelativeLayout.LayoutParams.MATCH_PARENT;
+    int wContent = RelativeLayout.LayoutParams.WRAP_CONTENT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        // リニアレイアウトの設定
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setLayoutParams(new LinearLayout.LayoutParams(mParent, mParent));
-        layout.setGravity(Gravity.CENTER);
+        // リラティブレイアウトの設定
+        RelativeLayout layout = new RelativeLayout((this));
+
+        layout.setLayoutParams(new RelativeLayout.LayoutParams(mParent, mParent));
+
+        // 背景色の設定
+        layout.setBackgroundColor(Color.rgb(220,255,240));
+
         setContentView(layout);
+
+        // dp設定
+        scale = getResources().getDisplayMetrics().density;
 
         // テキスト設定
         textView = new TextView(this);
         textView.setText(R.string.hello);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
-        textView.setTextColor(Color.rgb(0x0, 0x0, 0x0));
+        // テキストサイズ 30sp
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
+        // テキストカラー
+        textView.setTextColor(Color.rgb(0x0, 0x0, 0xff));
 
-        LinearLayout.LayoutParams textLayoutParams = new LinearLayout.LayoutParams(wContent, wContent);
+        RelativeLayout.LayoutParams textLayoutParams = new RelativeLayout.LayoutParams(wContent, wContent);
 
-        textView.setLayoutParams(textLayoutParams);
+        // setMargins
+        textLayoutParams.setMargins((int)(150 * scale), (int)(300 * scale), 0, 0);
 
+        textView.setLayoutParams((textLayoutParams));
         layout.addView(textView);
 
         // ボタンの設定
         button = new Button(this);
         button.setText(R.string.button);
 
-        scale = getResources().getDisplayMetrics().density;
-        buttonWidth = (int)(150 * scale);
-        margins = (int)(20 * scale);
-        buttonLayoutParams = new LinearLayout.LayoutParams(buttonWidth, wContent);
-        buttonLayoutParams.setMargins(margins, margins, margins, margins);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+        // ボタンサイズ
+        buttonWidth = (int) (200 * scale);
+        buttonHeight = (int)(100 * scale);
+        buttonLayoutParams = new RelativeLayout.LayoutParams(buttonWidth, buttonHeight);
+
+        buttonLayoutParams.setMargins((int)(105 * scale), (int)(360 * scale), 0, 0);
 
         button.setLayoutParams(buttonLayoutParams);
+
         layout.addView(button);
 
-        // リスナーをボタンに登録
+        // リスナーにボタンを登録
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flag){
+                if(flag) {
                     textView.setText(R.string.hello);
                     mode1();
                     flag = false;
@@ -78,23 +94,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void mode1() {
-        buttonWidth = (int)(150 * scale);
-
-        buttonLayoutParams = new LinearLayout.LayoutParams(buttonWidth, wContent);
-        buttonLayoutParams.setMargins(margins, margins, margins, margins);
+        buttonWidth = (int)(250 * scale);
+        buttonHeight = (int)(100 * scale);
+        buttonLayoutParams = new RelativeLayout.LayoutParams(buttonWidth, wContent);
+        buttonLayoutParams.setMargins((int)(150 * scale), (int)(360 * scale), 0, 0);
         button.setLayoutParams(buttonLayoutParams);
     }
 
     private void mode2() {
-        buttonWidth = (int)(250 * scale);
-        int buttonHeight = (int)(100 * scale);
-
-        buttonLayoutParams = new LinearLayout.LayoutParams(buttonWidth, buttonHeight);
-        buttonLayoutParams.setMargins((int)(5*scale), (int)(50*scale), (int)(50*scale), (int)(20*scale));
+        buttonWidth = (int)(270 * scale);
+        buttonHeight = (int)(200 * scale);
+        buttonLayoutParams = new RelativeLayout.LayoutParams(buttonWidth, buttonHeight);
+        buttonLayoutParams.setMargins((int)(5*scale), (int)(100*scale), (int)(50*scale), (int)(20*scale));
         button.setLayoutParams(buttonLayoutParams);
     }
 }
