@@ -3,4 +3,6 @@
     <string name="hello">Hello</string>
     <string name="world">World</string>
     <string name="button">Button</string>
+    <string name="custom_button">Custom Button</string>
+    <string name="tapped">Tapped</string>
 </resources>
