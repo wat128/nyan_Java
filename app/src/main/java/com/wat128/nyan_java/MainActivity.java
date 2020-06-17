@@ -28,19 +28,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        final Button button1 = findViewById(R.id.button1);
-        button1.setOnClickListener(new buttonClick());
-
-        final Button button2 = findViewById(R.id.button2);
-        button2.setOnClickListener(new buttonClick());
     }
 
-}
-
-class buttonClick implements View.OnClickListener {
-    @Override
-    public void onClick(View view) {
+    public void selfDestruct(View view) {
         if (view.getId() == R.id.button1) {
             Log.d("debug", "button1, Perform action on click");
         } else if (view.getId() == R.id.button2) {
@@ -48,3 +38,4 @@ class buttonClick implements View.OnClickListener {
         }
     }
 }
+
