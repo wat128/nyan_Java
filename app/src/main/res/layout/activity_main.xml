@@ -11,23 +11,20 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/text_imagebutton"
+        android:id="@+id/text_button"
         android:textSize="30sp"
         android:textColor="#ff0000"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:text="@string/image_button"/>
+        android:text="@string/button"/>
 
-    <ImageButton
-        android:id="@+id/image_button"
+    <Button
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:contentDescription="@string/image_description"
-        android:background="@drawable/image"/>
-
-
+        android:background="@drawable/image" />
 
 </LinearLayout>
