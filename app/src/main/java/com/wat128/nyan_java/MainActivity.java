@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,23 +30,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final Button button1 = findViewById(R.id.button1);
-        button1.setOnClickListener(buttonClick);
+        button1.setOnClickListener(this);
 
         final Button button2 = findViewById(R.id.button2);
-        button2.setOnClickListener(buttonClick);
+        button2.setOnClickListener(this);
     }
 
-    private View.OnClickListener buttonClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            switch(view.getId()) {
-                case R.id.button1:
-                    Log.d("debug", "button1, Perform action on click");
-                    break;
-                case R.id.button2:
-                    Log.d("debug", "button2, Perform action on click");
-                    break;
-            }
+    public void onClick(View view){
+        if(view.getId() == R.id.button1) {
+            Log.d("debug", "button1, Perform action on click");
+        } else if(view.getId() == R.id.button2) {
+            Log.d("debug", "button2, Perform action on click");
         }
-    };
+    }
 }
