@@ -30,20 +30,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final Button button1 = findViewById(R.id.button1);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("debug", "button1, Perform action on click");
-            }
-        });
+        button1.setOnClickListener(buttonClick);
 
         final Button button2 = findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("debug", "button2, Perform action on click");
-            }
-        });
-
+        button2.setOnClickListener(buttonClick);
     }
+
+    private View.OnClickListener buttonClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch(view.getId()) {
+                case R.id.button1:
+                    Log.d("debug", "button1, Perform action on click");
+                    break;
+                case R.id.button2:
+                    Log.d("debug", "button2, Perform action on click");
+                    break;
+            }
+        }
+    };
 }
