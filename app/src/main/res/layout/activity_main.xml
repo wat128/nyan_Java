@@ -10,21 +10,17 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/text_button"
-        android:textSize="30sp"
-        android:textColor="#ff0000"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:text="@string/button"/>
-
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="button1"/>
+
+    <Button
+        android:id="@+id/button2"
         android:layout_margin="10dp"
-        android:background="@drawable/image" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="button2" />
 
 </LinearLayout>
