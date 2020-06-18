@@ -32,10 +32,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         setContentView(R.layout.activity_main);
 
-         TextView textView = findViewById(R.id.text_view);
-         textView.setText(R.string.text);
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setGravity(Gravity.CENTER);
+        setContentView(layout);
+
+        TextView textView = new TextView(this);
+        textView.setText("Test TextView");
+        textView.setTextColor(Color.rgb(0x0, 0x0, 0xaa));
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
+        layout.addView(textView, new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
 
     }
 }
