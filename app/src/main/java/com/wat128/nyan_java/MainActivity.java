@@ -13,7 +13,10 @@ import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.ActionMode;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,62 +33,66 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView;
+    private TextView textView, textCopied;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        ConstraintLayout layout = new ConstraintLayout(this);
+        textView = findViewById(R.id.text_view);
+        textCopied = findViewById(R.id.text_copied);
 
-        layout.setLayoutParams(new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT));
+        textView.setText(R.string.info_text);
+        textView.setTextIsSelectable(true);
 
-        TextView textView = new TextView(this);
-        int viewId = View.generateViewId();
-        textView.setId(viewId);
-        textView.setText("Hello World");
-        textView.setTextColor(Color.rgb(0x0, 0x0, 0xaa));
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 50);
-        layout.addView(textView);
+        textView.setCustomSelectionActionModeCallback(new ActionMode.Callback2(){
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                return true;
+            }
 
-        ConstraintSet constraintSet = new ConstraintSet();
-        constraintSet.clone(layout);
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
 
-        constraintSet.constrainHeight(textView.getId(), ConstraintSet.WRAP_CONTENT);
-        constraintSet.constrainWidth(textView.getId(), ConstraintSet.WRAP_CONTENT);
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 
-        constraintSet.connect(
-                textView.getId(),
-                ConstraintSet.BOTTOM,
-                ConstraintSet.PARENT_ID,
-                ConstraintSet.BOTTOM,
-                0);
+                switch(item.getItemId()){
+                    case android.R.id.copy:
+                        int min = 0;
+                        int max = textView.getText().length();
+                        if(textView.isFocused()) {
+                            final int selStart = textView.getSelectionStart();
+                            final int selEnd = textView.getSelectionEnd();
 
-        constraintSet.connect(
-                textView.getId(),
-                ConstraintSet.LEFT,
-                ConstraintSet.PARENT_ID,
-                ConstraintSet.LEFT,
-                0);
+                            min = Math.max(0, Math.min(selStart, selEnd));
+                            max = Math.max(0, Math.max(selStart, selEnd));
+                        }
 
-        constraintSet.connect(
-                textView.getId(),
-                ConstraintSet.RIGHT,
-                ConstraintSet.PARENT_ID,
-                ConstraintSet.RIGHT,
-                0);
+                        final CharSequence selectedText = textView.getText().subSequence(min, max);
 
-        constraintSet.connect(
-                textView.getId(),
-                ConstraintSet.TOP,
-                ConstraintSet.PARENT_ID,
-                ConstraintSet.TOP,
-                0);
+                        textCopied.setText(selectedText.toString());
 
-        constraintSet.applyTo(layout);
-        setContentView(layout);
+                        mode.finish();;
+                        return true;
+                    case android.R.id.cut:
+                        return true;
+                    case android.R.id.paste:
+                        return true;
+                    default:
+                        break;
+                }
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
 
     }
 }
