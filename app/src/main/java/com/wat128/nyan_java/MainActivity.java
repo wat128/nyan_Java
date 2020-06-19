@@ -11,6 +11,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.ActionMode;
@@ -32,9 +34,8 @@ import org.w3c.dom.Text;
 import java.lang.reflect.Type;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TextWatcher {
 
-    private EditText editText;
     private TextView textView;
 
     @Override
@@ -42,18 +43,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        editText = findViewById(R.id.edit_text);
+        EditText editText = findViewById(R.id.edit_text);
+        editText.addTextChangedListener(this);
         textView = findViewById(R.id.text_view);
-        Button button = findViewById(R.id.button);
+    }
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = editText.getText().toString();
-                textView.setText(text);
-            }
-        });
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        String text = s.toString();
+
+        if(text.length() > 8){
+            textView.setText(text + "文字数オーバー");
+            textView.setTextColor(Color.RED);
+        } else {
+            textView.setText(text);
+            textView.setTextColor(Color.BLACK);
+        }
     }
 }
 
