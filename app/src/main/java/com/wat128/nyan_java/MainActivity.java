@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,64 +34,23 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView, textCopied;
+    private EditText editText;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        editText = findViewById(R.id.edit_text);
         textView = findViewById(R.id.text_view);
-        textCopied = findViewById(R.id.text_copied);
+        Button button = findViewById(R.id.button);
 
-        textView.setText(R.string.info_text);
-        textView.setTextIsSelectable(true);
-
-        textView.setCustomSelectionActionModeCallback(new ActionMode.Callback2(){
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                return true;
-            }
-
-            @Override
-            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-
-                switch(item.getItemId()){
-                    case android.R.id.copy:
-                        int min = 0;
-                        int max = textView.getText().length();
-                        if(textView.isFocused()) {
-                            final int selStart = textView.getSelectionStart();
-                            final int selEnd = textView.getSelectionEnd();
-
-                            min = Math.max(0, Math.min(selStart, selEnd));
-                            max = Math.max(0, Math.max(selStart, selEnd));
-                        }
-
-                        final CharSequence selectedText = textView.getText().subSequence(min, max);
-
-                        textCopied.setText(selectedText.toString());
-
-                        mode.finish();;
-                        return true;
-                    case android.R.id.cut:
-                        return true;
-                    case android.R.id.paste:
-                        return true;
-                    default:
-                        break;
-                }
-                return false;
-            }
-
-            @Override
-            public void onDestroyActionMode(ActionMode mode) {
-
+            public void onClick(View v) {
+                String text = editText.getText().toString();
+                textView.setText(text);
             }
         });
 
