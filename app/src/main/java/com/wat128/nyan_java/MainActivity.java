@@ -1,5 +1,6 @@
 package com.wat128.nyan_java;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -34,41 +35,75 @@ import org.w3c.dom.Text;
 import java.lang.reflect.Type;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements TextWatcher {
+public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
+    private EditText editText;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        EditText editText = findViewById(R.id.edit_text);
-        editText.addTextChangedListener(this);
-        textView = findViewById(R.id.text_view);
-    }
+        LinearLayout layout = new LinearLayout(this);
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setBackgroundColor(0xffddffee);
+        layout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
 
-    }
+        layout.setGravity(Gravity.CENTER_HORIZONTAL);
+        setContentView(layout);
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        float scale = getResources().getDisplayMetrics().density;
+        int margins = (int)(30 * scale);
 
-    }
+        textView = new TextView(this);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+        textView.setTextColor(Color.rgb(0x0,0x0,0x0));
 
-    @Override
-    public void afterTextChanged(Editable s) {
-        String text = s.toString();
+        LinearLayout.LayoutParams textLayoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        if(text.length() > 8){
-            textView.setText(text + "文字数オーバー");
-            textView.setTextColor(Color.RED);
-        } else {
-            textView.setText(text);
-            textView.setTextColor(Color.BLACK);
-        }
+        textLayoutParams.setMargins(margins, margins*3, margins, margins);
+        textView.setLayoutParams(textLayoutParams);
+        layout.addView(textView);
+
+        editText = new EditText(this);
+        String strHint = "input";
+        editText.setHint(strHint);
+
+        int editTextWidth = (int)(150 * scale);
+        LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(
+                editTextWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
+        editText.setLayoutParams(editTextParams);
+
+        editText.setBackgroundColor(0xffffffff);
+
+        layout.addView(editText);
+
+        Button button = new Button(this);
+        String strTitle = "Button";
+        button.setText(strTitle);
+
+        int buttonWidth = (int)(150 * scale);
+        LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
+                buttonWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
+        buttonLayoutParams.setMargins(margins, margins, margins, margins);
+        button.setLayoutParams(buttonLayoutParams);
+        layout.addView(button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = editText.getText().toString();
+                textView.setText(text);
+                editText.setText("");
+            }
+        });
+
+
     }
 }
 
