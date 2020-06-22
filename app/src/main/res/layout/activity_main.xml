@@ -1,59 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#dfe"
-    android:orientation="vertical"
-    android:padding="20dp"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/edit_text1"
-        android:hint="@string/hint1"
-        android:autofillHints="@string/hint1"
+<!--    <ImageView
+        android:src="@drawable/image"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="#ffffff"
-        android:gravity="start"
-        android:inputType="text"/>
+        android:layout_height="match_parent"
+        android:contentDescription="@string/image_description"/>-->
 
-    <EditText
-        android:id="@+id/edit_text2"
-        android:hint="@string/hint2"
-        android:autofillHints="@string/hint2"
+    <ImageView
+        android:id="@+id/image_view2"
+        android:scaleType="centerCrop"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="#ffffff"
-        android:gravity="start"
-        android:inputType="text"/>
+        android:layout_height="match_parent"
+        android:contentDescription="@string/image_description2"/>
 
-    <EditText
-        android:id="@+id/edit_text3"
-        android:hint="@string/hint3"
-        android:autofillHints="@string/hint3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="#ffffff"
-        android:gravity="start"
-        android:maxLength="4"
-        android:inputType="text"/>
-
-    <EditText
-        android:id="@+id/edit_text4"
-        android:hint="@string/hint4"
-        android:autofillHints="@string/hint4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="#ffffff"
-        android:maxLines="1"
-        android:gravity="start"
-        android:inputType="text"/>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
