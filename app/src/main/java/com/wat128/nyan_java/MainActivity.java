@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ActionMenuView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -39,21 +40,56 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    private LinearLayout.LayoutParams layoutParams;
+    private ImageView imageView;
+    private int imageWidth, imageHeight;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        ImageView imageView3 = findViewById(R.id.image_view3);
-        AssetManager asset = getResources().getAssets();
+        LinearLayout layout = new LinearLayout(this);
 
-        try(InputStream istream = asset.open("image3.jpeg")){
-            Bitmap bitmap = BitmapFactory.decodeStream(istream);
-            imageView3.setImageBitmap(bitmap);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
+        layout.setGravity(Gravity.CENTER);
+        layout.setBackgroundColor(Color.argb(0xff, 0xaa, 0xcc, 0xff));
 
+        setContentView(layout);
+
+        imageView = new ImageView(this);
+        imageView.setImageResource(R.drawable.image);
+
+        imageWidth = 300;
+        imageHeight = 300;
+
+        layoutParams = new LinearLayout.LayoutParams(imageWidth, imageHeight);
+        imageView.setLayoutParams(layoutParams);
+
+        layout.addView(imageView);
+
+        Button button = new Button(this);
+        String str = "Button";
+        button.setText(str);
+
+        LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        button.setLayoutParams(buttonLayoutParams);
+        layout.addView(button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageWidth += 200;
+                imageHeight += 200;
+
+                layoutParams = new LinearLayout.LayoutParams(imageWidth, imageHeight);
+                imageView.setLayoutParams(layoutParams);
+            }
+        });
     }
 }
 
