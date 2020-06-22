@@ -8,6 +8,7 @@
     <string name="image_button">Image button</string>
     <string name="image_description">Kina is sleeping</string>
     <string name="image_description2">Baby Kina</string>
+    <string name="image_description3">Baby Kina 2</string>
     <string name="text">Text TextView</string>
     <string name="info_text">When users select text in your app, you can now display text selection actions such as Cut, Copy, and Paste in a floating toolbar.</string>
     <string name="hint">8文字まで入力可能</string>

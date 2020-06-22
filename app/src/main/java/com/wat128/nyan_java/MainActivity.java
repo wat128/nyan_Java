@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -32,6 +33,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Locale;
 
@@ -42,8 +44,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ImageView imageView = findViewById(R.id.image_view2);
-        imageView.setImageResource(R.drawable.image2);
+        ImageView imageView3 = findViewById(R.id.image_view3);
+        AssetManager asset = getResources().getAssets();
+
+        try(InputStream istream = asset.open("image3.jpeg")){
+            Bitmap bitmap = BitmapFactory.decodeStream(istream);
+            imageView3.setImageBitmap(bitmap);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 }
