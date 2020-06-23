@@ -21,6 +21,7 @@ import android.view.ActionMode;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ActionMenuView;
@@ -38,33 +39,56 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+import com.wat128.nyan_java.CustomImageView;
 
-    private ImageView imageView;
-    private int counter = 0;
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
+
+    private CustomImageView cImageView;
+    private int preDx, preDy;
+    private TextView textView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageView = findViewById(R.id.image_view);
-        imageView.layout(0,0,imageView.getWidth(), imageView.getHeight());
+        textView = findViewById(R.id.text_view);
 
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        cImageView = this.findViewById(R.id.image_view);
+        cImageView.setOnTouchListener(this);
+    }
 
-                counter += 100;
-                int left = counter / 2;
-                int top = counter;
-                int right = counter / 2 + imageView.getWidth();
-                int bottom = counter + imageView.getHeight();
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        // x, y 位置取得
+        int newDx = (int)event.getRawX();
+        int newDy = (int)event.getRawY();
 
-                imageView.layout(left, top, right, bottom);
-            }
-        });
+        switch(event.getAction()){
+            case MotionEvent.ACTION_MOVE:
+                v.performClick();
+
+                int dx = cImageView.getLeft() + (newDx - preDx);
+                int dy = cImageView.getTop() + (newDy - preDy);
+                int imgW = dx + cImageView.getWidth();
+                int imgH = dy + cImageView.getHeight();
+
+                cImageView.layout(dx, dy, imgW, imgH);
+
+                textView.setText("dx = " + dx + "\ndy = " + dy);
+
+                break;
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_UP:
+                break;
+            default:
+                break;
+        }
+
+        preDx = newDx;
+        preDy = newDy;
+
+        return true;
     }
 }
 
