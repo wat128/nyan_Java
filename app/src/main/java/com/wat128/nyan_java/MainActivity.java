@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
 
@@ -22,16 +24,20 @@ public class MainActivity extends AppCompatActivity {
 
         Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.drawable.image);
 
-        int imgW = bitmap1.getWidth();
-        int imgH = bitmap1.getHeight();
+        final int imgW = bitmap1.getWidth();
+        final int imgH = bitmap1.getHeight();
 
         Matrix matrix = new Matrix();
 
-        matrix.setRotate(90, imgW / 2, imgH / 2);
+        final float ratio = 0.1f;
+
+        matrix.preScale(ratio, ratio);
 
         Bitmap bitmap2 = Bitmap.createBitmap(bitmap1, 0, 0, imgW, imgH, matrix, true);
 
-        imageView.setImageBitmap(bitmap2);
+        Drawable drawable = new BitmapDrawable(getResources(), bitmap2);
+
+        imageView.setImageDrawable(drawable);
     }
 }
 
