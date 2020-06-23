@@ -16,4 +16,7 @@
     <string name="hint2">hint</string>
     <string name="hint3">文字数制限</string>
     <string name="hint4">１行数制限</string>
+    <string name="rotation">rotation</string>
+    <string name="resize">resize</string>
+    <string name="flip">flip</string>
 </resources>
