@@ -16,15 +16,36 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ProgressBar progressBar;
+    private boolean flg = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        progressBar = findViewById(R.id.progressbar);
+
+        Button button = findViewById(R.id.button);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(flg){
+                    progressBar.setVisibility(ProgressBar.VISIBLE);
+                    flg = false;
+                } else {
+                    progressBar.setVisibility(ProgressBar.INVISIBLE);
+                    flg = true;
+                }
+            }
+        });
 
     }
 }
