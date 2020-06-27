@@ -21,7 +21,9 @@
     <SeekBar
         android:id="@+id/seekbar"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
+        android:progressDrawable="@drawable/custom_progress"
+        android:thumb="@drawable/custom_thumb"
         android:background="#ccc"
         android:layout_margin="20dp"/>
 
