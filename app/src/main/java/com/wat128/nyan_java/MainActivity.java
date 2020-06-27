@@ -17,34 +17,44 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
-    private ProgressBar progressBar;
-    private int val = 0;
+    private TextView textView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        progressBar = findViewById(R.id.progressbar);
+        textView = findViewById(R.id.text_view);
 
-        progressBar.setMax(100);
-
-        Button button = findViewById(R.id.button);
-
-        button.setOnClickListener(new View.OnClickListener() {
+        SeekBar seekBar = findViewById(R.id.seekbar);
+        seekBar.setProgress(0);
+        seekBar.setMax(100);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onClick(View v) {
-                val += 10;
-                progressBar.setProgress(val);
-                progressBar.setSecondaryProgress(70);
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                String str = String.format(Locale.US, "%d %%", progress);
+                textView.setText(str);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
-
     }
 }
 
