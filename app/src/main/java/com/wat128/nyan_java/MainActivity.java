@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,92 +37,29 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SeekBar[] seekBars = new SeekBar[4];
-    private TextView textView;
+    String toastMessage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
+        Button button = findViewById(R.id.button);
 
-        layout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
+        toastMessage = "トースト";
 
-        layout.setGravity(Gravity.CENTER);
-
-        layout.setBackgroundColor(Color.rgb(220, 255, 220));
-        setContentView(layout);
-
-        float dp = getResources().getDisplayMetrics().density;
-        int margins = (int)(20 * dp);
-        int seekBarHeight = (int)(50 * dp);
-
-        textView = new TextView(this);
-
-        LinearLayout.LayoutParams textViewLayoutParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        textViewLayoutParams.setMargins(margins, margins, margins, margins);
-
-        textView.setLayoutParams(textViewLayoutParams);
-        layout.addView(textView);
-        String str = String.valueOf(0)+" %";
-        textView.setText(str);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-
-        for(int i = 0; i < seekBars.length; ++i) {
-            seekBars[i] = new SeekBar(this);
-
-            LinearLayout.LayoutParams seekBarLayoutParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    seekBarHeight);
-            seekBarLayoutParams.setMargins(margins, margins, margins, margins);
-
-            seekBars[i].setLayoutParams(seekBarLayoutParams);
-            layout.addView(seekBars[i]);
-
-            seekBars[i].setProgress(0);
-            seekBars[i].setMax(100);
-            seekBars[i].setBackgroundColor(Color.rgb(191, 191, 191));
-
-            if(i == 0) {}
-            else if(i == 1) {
-                Drawable icon = ResourcesCompat.getDrawable(getResources(),R.drawable.ic_launcher_foreground, null);
-                seekBars[i].setThumb(icon);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toastMessage(toastMessage, 0, -200);
             }
-            else if(i == 2) {
-                ShapeDrawable shapeDrawable = new ShapeDrawable(new OvalShape());
-                shapeDrawable.getPaint().setColor(Color.BLUE);
-                shapeDrawable.setIntrinsicWidth(30 * (int)dp);
-                shapeDrawable.setIntrinsicHeight(50 * (int)dp);
-                seekBars[i].setThumb(shapeDrawable);
-            }
-            else if(i == 3) {
-                Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.custom_progress, null);
-                seekBars[i].setProgressDrawable(icon);
-            }
+        });
+    }
 
-            seekBars[i].setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    String str = String.valueOf(progress) + " %";
-                    textView.setText(str);
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-
-                }
-            });
-        }
+    private void toastMessage(String message, int x, int y) {
+        Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER, x, y);
+        toast.show();
 
     }
 }
