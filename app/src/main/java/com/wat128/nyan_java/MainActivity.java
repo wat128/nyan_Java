@@ -40,16 +40,33 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
+    private TextView textView;
+    private Snackbar snackbar;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        textView = findViewById(R.id.text_view);
+
         Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "メッセージ", Snackbar.LENGTH_SHORT).show();っそう
+                snackbar = Snackbar.make(v, R.string.ask, Snackbar.LENGTH_SHORT);
+                snackbar.setDuration(10000);
+                snackbar.getView().setBackgroundColor(Color.rgb(32, 125, 98));
+
+                snackbar.setAction("Reply", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        textView.setText(R.string.message);
+                    }
+                });
+                snackbar.setActionTextColor(Color.YELLOW);
+                snackbar.show();
+
             }
         });
     }

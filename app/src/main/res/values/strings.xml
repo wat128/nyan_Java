@@ -19,4 +19,6 @@
     <string name="rotation">rotation</string>
     <string name="resize">resize</string>
     <string name="flip">flip</string>
+    <string name="ask">Are you Clear?</string>
+    <string name="message">Understood</string>
 </resources>
