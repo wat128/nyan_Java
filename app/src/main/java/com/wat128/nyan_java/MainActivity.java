@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -40,35 +41,44 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView;
-    private Snackbar snackbar;
+    private CheckBox[] checkBoxs = new CheckBox[2];
+    private String[] str = {"未チェックです", "チェックされた", "チェックされていない"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.text_view);
+        checkBoxs[0] = findViewById(R.id.checkbox1);
+        checkBoxs[0].setChecked(false);
+        checkBoxs[0].setText(str[0]);
 
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        checkBoxs[0].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                snackbar = Snackbar.make(v, R.string.ask, Snackbar.LENGTH_SHORT);
-                snackbar.setDuration(10000);
-                snackbar.getView().setBackgroundColor(Color.rgb(32, 125, 98));
-
-                snackbar.setAction("Reply", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        textView.setText(R.string.message);
-                    }
-                });
-                snackbar.setActionTextColor(Color.YELLOW);
-                snackbar.show();
-
+                boolean check = checkBoxs[0].isChecked();
+                if(check)
+                    checkBoxs[0].setText(str[1]);
+                else
+                    checkBoxs[0].setText(str[2]);
             }
         });
+
+        checkBoxs[1] = findViewById(R.id.checkbox2);
+        checkBoxs[1].setChecked(false);
+        checkBoxs[1].setText(str[0]);
+
+        checkBoxs[1].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean check = checkBoxs[1].isChecked();
+                if(check)
+                    checkBoxs[1].setText(str[1]);
+                else
+                    checkBoxs[1].setText(str[2]);
+            }
+        });
+
     }
 }
 
