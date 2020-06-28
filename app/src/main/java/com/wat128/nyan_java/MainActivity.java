@@ -32,6 +32,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Type;
@@ -39,49 +40,18 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Context context;
-    private String toastMessage;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        context = getApplicationContext();
-
-        toastMessage = "OK";
-
         Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(toastMessage != null){
-                    toastMake(toastMessage, context);
-                }
+                Snackbar.make(v, "メッセージ", Snackbar.LENGTH_SHORT).show();っそう
             }
         });
-    }
-
-    public void toastMake(String str, Context context) {
-        Toast toast = new Toast(context);
-
-        LayoutInflater inflater = getLayoutInflater();
-
-        ViewGroup viewGroup = findViewById(R.id.relative_layout);
-
-        View view = inflater.inflate(R.layout.custom_toast, viewGroup);
-
-        TextView textView = view.findViewById(R.id.message);
-        textView.setText(str);
-
-        toast.setView(view);
-
-        toast.setDuration(Toast.LENGTH_SHORT);
-
-        toast.setGravity(Gravity.CENTER, 0, -100);
-
-        toast.show();
-
     }
 }
 
