@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -37,28 +39,47 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    String toastMessage;
+    private Context context;
+    private String toastMessage;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        context = getApplicationContext();
+
+        toastMessage = "OK";
+
         Button button = findViewById(R.id.button);
-
-        toastMessage = "トースト";
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toastMessage(toastMessage, 0, -200);
+                if(toastMessage != null){
+                    toastMake(toastMessage, context);
+                }
             }
         });
     }
 
-    private void toastMessage(String message, int x, int y) {
-        Toast toast = Toast.makeText(this, message, Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER, x, y);
+    public void toastMake(String str, Context context) {
+        Toast toast = new Toast(context);
+
+        LayoutInflater inflater = getLayoutInflater();
+
+        ViewGroup viewGroup = findViewById(R.id.relative_layout);
+
+        View view = inflater.inflate(R.layout.custom_toast, viewGroup);
+
+        TextView textView = view.findViewById(R.id.message);
+        textView.setText(str);
+
+        toast.setView(view);
+
+        toast.setDuration(Toast.LENGTH_SHORT);
+
+        toast.setGravity(Gravity.CENTER, 0, -100);
+
         toast.show();
 
     }
