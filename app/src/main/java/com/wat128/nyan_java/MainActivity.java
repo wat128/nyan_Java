@@ -24,12 +24,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,45 +43,37 @@ import java.lang.reflect.Type;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-
-    private CheckBox[] checkBoxs = new CheckBox[2];
-    private String[] str = {"未チェックです", "チェックされた", "チェックされていない"};
+    private String[] spinnerItems = {"Spinner", "Android", "Apple", "Windows"};
+    private TextView textView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkBoxs[0] = findViewById(R.id.checkbox1);
-        checkBoxs[0].setChecked(false);
-        checkBoxs[0].setText(str[0]);
+        textView = findViewById(R.id.text_view);
 
-        checkBoxs[0].setOnClickListener(new View.OnClickListener() {
+        Spinner spinner = findViewById(R.id.spinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinnerItems);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                boolean check = checkBoxs[0].isChecked();
-                if(check)
-                    checkBoxs[0].setText(str[1]);
-                else
-                    checkBoxs[0].setText(str[2]);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Spinner spinner = (Spinner)parent;
+                String item = (String)spinner.getSelectedItem();
+                textView.setText(item);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
-
-        checkBoxs[1] = findViewById(R.id.checkbox2);
-        checkBoxs[1].setChecked(false);
-        checkBoxs[1].setText(str[0]);
-
-        checkBoxs[1].setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean check = checkBoxs[1].isChecked();
-                if(check)
-                    checkBoxs[1].setText(str[1]);
-                else
-                    checkBoxs[1].setText(str[2]);
-            }
-        });
-
     }
 }
 
