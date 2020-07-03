@@ -12,8 +12,8 @@
     <string name="text">Text TextView</string>
     <string name="info_text">When users select text in your app, you can now display text selection actions such as Cut, Copy, and Paste in a floating toolbar.</string>
     <string name="hint">8文字まで入力可能</string>
-    <string name="hint1">指定なし</string>
-    <string name="hint2">hint</string>
+    <string name="hint1">Message to Sub</string>
+    <string name="hint2">Message to Main</string>
     <string name="hint3">文字数制限</string>
     <string name="hint4">１行数制限</string>
     <string name="rotation">rotation</string>
@@ -22,8 +22,15 @@
     <string name="ask">Are you Clear?</string>
     <string name="message">Understood</string>
     <string name="description">photo</string>
+
     <string name="main">Main Activity</string>
-    <string name="move">MOVE</string>
     <string name="sub">Sub Activity</string>
+    <string name="to_main">"  to Main"</string>
+    <string name="from_main">"from Main"</string>
+    <string name="to_sub">"  to Sub"</string>
+    <string name="from_sub">"from Sub</string>
+    <string name="move">MOVE</string>
+    <string name="back">BACK</string>
     <string name="return_sub">RETURN</string>
+
 </resources>
