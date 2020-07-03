@@ -15,14 +15,30 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setScreenMain();
+    }
+
+    private void setScreenMain() {
         setContentView(R.layout.activity_main);
 
         Button sendButton = findViewById(R.id.send_button);
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), SubActivity.class);
-                startActivity(intent);
+               setScreenSub();
+            }
+        });
+    }
+
+    private void setScreenSub() {
+        setContentView(R.layout.activity_sub);
+
+        Button returnButton = findViewById(R.id.return_button);
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setScreenMain();
             }
         });
     }
