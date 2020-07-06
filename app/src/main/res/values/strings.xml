@@ -34,5 +34,6 @@
     <string name="return_sub">RETURN</string>
 
     <string name="hello_fragment">Hello Fragment</string>
+    <string name="activity">Activity</string>
 
 </resources>
