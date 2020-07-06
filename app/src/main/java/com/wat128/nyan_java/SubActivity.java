@@ -10,40 +10,20 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SubActivity extends AppCompatActivity {
+import org.w3c.dom.Text;
 
-    private EditText editText;
-    private String message;
+public class SubActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-        Intent intent = getIntent();
-        message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        MyApp myApp = (MyApp)this.getApplication();
+        String str = myApp.getTestString();
 
-        TextView textView = findViewById(R.id.text_view);
-        textView.setText(message);
+        TextView textViewSub = findViewById(R.id.textvieww_sub);
+        textViewSub.setText(str);
 
-        editText = findViewById(R.id.edit_text);
-
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                if(editText.getText() != null) {
-                    String str = message + editText.getText().toString();
-                    intent.putExtra(MainActivity.EXTRA_MESSAGE, str);
-                }
-
-                editText.setText("");
-
-                setResult(RESULT_OK, intent);
-
-                finish();
-            }
-        });
     }
 }

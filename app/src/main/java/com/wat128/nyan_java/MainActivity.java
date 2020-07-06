@@ -15,45 +15,28 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    // the key constant
-    public static final String EXTRA_MESSAGE = "com.wat128.nyan_java.MESSAGE";
-
-    private TextView textView;
-    static final int RESULT_SUBACTIVITY = 1000;
+    private MyApp myApp;
+    private EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.text_view);
+        myApp = (MyApp)this.getApplication();
+        editText = findViewById(R.id.edit_text);
 
-        final EditText editText = findViewById(R.id.edit_text);
-
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonMain = findViewById(R.id.button_main);
+        buttonMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), SubActivity.class);
-                if(editText.getText() != null) {
-                    String str = editText.getText().toString();
-                    intent.putExtra(EXTRA_MESSAGE, str);
-                }
-                startActivityForResult(intent, RESULT_SUBACTIVITY);
+                String message = editText.getText().toString();
+                myApp.setTestString(message);
 
-                editText.setText("");
+                Intent intent = new Intent(getApplication(), SubActivity.class);
+                startActivity(intent);
             }
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == RESULT_OK && requestCode == RESULT_SUBACTIVITY && null != data) {
-            String res = data.getStringExtra(MainActivity.EXTRA_MESSAGE);
-            textView.setText(res);
-        }
     }
 }
 

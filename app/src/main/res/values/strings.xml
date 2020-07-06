@@ -11,7 +11,7 @@
     <string name="image_description3">Baby Kina 2</string>
     <string name="text">Text TextView</string>
     <string name="info_text">When users select text in your app, you can now display text selection actions such as Cut, Copy, and Paste in a floating toolbar.</string>
-    <string name="hint">8文字まで入力可能</string>
+    <string name="hint">input anything you like</string>
     <string name="hint1">Message to Sub</string>
     <string name="hint2">Message to Main</string>
     <string name="hint3">文字数制限</string>
