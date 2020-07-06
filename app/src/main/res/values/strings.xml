@@ -33,4 +33,6 @@
     <string name="back">BACK</string>
     <string name="return_sub">RETURN</string>
 
+    <string name="hello_fragment">Hello Fragment</string>
+
 </resources>
