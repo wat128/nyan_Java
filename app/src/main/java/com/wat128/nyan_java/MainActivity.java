@@ -4,7 +4,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,28 +17,51 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MyApp myApp;
-    private EditText editText;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myApp = (MyApp)this.getApplication();
-        editText = findViewById(R.id.edit_text);
+        Log.d("debug", "onCreate()");
 
-        Button buttonMain = findViewById(R.id.button_main);
-        buttonMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String message = editText.getText().toString();
-                myApp.setTestString(message);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-                Intent intent = new Intent(getApplication(), SubActivity.class);
-                startActivity(intent);
-            }
-        });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("debug", "onStart()");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("debug", "onRestart()");
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        Log.d("debug", "onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("debug", "onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("debug", "onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("debug", "onDestroy()");
     }
 }
 
