@@ -41,4 +41,7 @@
     <string name="button02">Button 02</string>
     <string name="pop02">Pop 02</string>
 
+    <string name="start">Start Service</string>
+    <string name="stop">Stop Service</string>
+
 </resources>

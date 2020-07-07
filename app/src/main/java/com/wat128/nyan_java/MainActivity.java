@@ -25,17 +25,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(savedInstanceState == null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        Button buttonStart = findViewById(R.id.button_start);
+        buttonStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), TestService.class);
+                intent.putExtra("REQUEST_CODE", 1);
 
-            fragmentTransaction.addToBackStack(null);
+                startForegroundService(intent);
+            }
+        });
 
-            int count = 0;
-            fragmentTransaction.replace(R.id.container, Fragment01.newInstance(count));
-
-            fragmentTransaction.commit();
-        }
+        Button buttonStop = findViewById(R.id.button_stop);
+        buttonStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplication(), TestService.class);
+                stopService(intent);
+            }
+        });
     }
 }
 
