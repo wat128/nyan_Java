@@ -22,8 +22,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="showDatePickerDialog"
+        android:onClick="showTimePickerDialog"
         android:layout_margin="30dp"
-        android:text="@string/pick_date"/>
+        android:text="@string/pick_time"/>
 
 </LinearLayout>

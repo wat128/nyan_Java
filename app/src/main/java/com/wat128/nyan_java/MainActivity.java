@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
@@ -25,10 +26,11 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import java.util.Locale;
 
-public class MainActivity extends FragmentActivity implements DatePickerDialog.OnDateSetListener {
+public class MainActivity extends FragmentActivity implements TimePickerDialog.OnTimeSetListener {
 
     private TextView textView;
 
@@ -38,21 +40,25 @@ public class MainActivity extends FragmentActivity implements DatePickerDialog.O
         setContentView(R.layout.activity_main);
 
         Log.d("debug", "MainActivity.onCreate");
+
         textView = findViewById(R.id.textView);
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-        Log.d("debug", "MainActivity.onDateSet");
-        String str = String.format(Locale.US, "%d%d%d", year, month+1, dayOfMonth);
+        Log.d("debug", "MainActivity.onTimeSet");
+
+        String str = String.format(Locale.US, "%d : %d", hourOfDay, minute);
         textView.setText(str);
     }
 
-    public void showDatePickerDialog(View v) {
-        Log.d("debug", "MainActivity.showDatePickerDialog");
-        DialogFragment newFragment = new DataPick();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+    public void showTimePickerDialog(View v) {
+
+        Log.d("debug", "MainActivity.showTimePickerDialog");
+
+        DialogFragment newFragment = new TimePick();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 }
 

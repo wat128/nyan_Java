@@ -23,7 +23,7 @@ public class DataPick extends DialogFragment implements DatePickerDialog.OnDateS
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        return new DatePickerDialog(getActivity(), (MainActivity)getActivity(), year, month, day);
+        return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
     @Override

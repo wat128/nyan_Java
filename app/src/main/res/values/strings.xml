@@ -46,5 +46,6 @@
 
     <string name="no_date">No Date</string>
     <string name="pick_date">Pick Date</string>
+    <string name="pick_time">Pick Time</string>
 
 </resources>
