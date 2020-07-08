@@ -3,6 +3,7 @@ package com.wat128.nyan_java;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +16,8 @@ public class DataPick extends DialogFragment implements DatePickerDialog.OnDateS
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+
+        Log.d("debug", "DatePick.onCreateDialog");
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
@@ -25,7 +28,7 @@ public class DataPick extends DialogFragment implements DatePickerDialog.OnDateS
 
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
+        Log.d("debug", "DatePick.onDateSet");
     }
 
 }

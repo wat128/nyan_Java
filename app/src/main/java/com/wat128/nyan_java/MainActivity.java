@@ -37,17 +37,20 @@ public class MainActivity extends FragmentActivity implements DatePickerDialog.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("debug", "MainActivity.onCreate");
         textView = findViewById(R.id.textView);
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
+        Log.d("debug", "MainActivity.onDateSet");
         String str = String.format(Locale.US, "%d%d%d", year, month+1, dayOfMonth);
         textView.setText(str);
     }
 
     public void showDatePickerDialog(View v) {
+        Log.d("debug", "MainActivity.showDatePickerDialog");
         DialogFragment newFragment = new DataPick();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
