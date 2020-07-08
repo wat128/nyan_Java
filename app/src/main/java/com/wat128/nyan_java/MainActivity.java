@@ -24,43 +24,22 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static int OVERLAY_PERMISSION_REQ_CODE = 1000;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkPermission();
-
+        // 開始ボタン
         Button buttonStart = findViewById(R.id.button_start);
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), TestService.class);
-                startForegroundService(intent);
+                intent = new Intent(MainActivity.this, TestIntentService.class);
+                startService(intent);
             }
         });
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    public void checkPermission() {
-        if(!Settings.canDrawOverlays(this)) {
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent, OVERLAY_PERMISSION_REQ_CODE);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.M)
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == OVERLAY_PERMISSION_REQ_CODE) {
-            if(!Settings.canDrawOverlays(this)) {
-                Log.d("debug", "SYSTEM_ALERT_WINDOWS permission not granted...");
-            }
-        }
     }
 }
 
