@@ -24,7 +24,7 @@ public class TimePick extends DialogFragment implements TimePickerDialog.OnTimeS
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
 
-        return new TimePickerDialog(getActivity(), (MainActivity)getActivity(), hour, minute, true);
+        return new TimePickerDialog(getActivity(), this, hour, minute, true);
     }
 
     @Override

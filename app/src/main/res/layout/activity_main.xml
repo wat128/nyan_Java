@@ -10,20 +10,71 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="30dp"
+        android:textStyle="bold"
+        android:text="@string/number"
+        android:textColor="#00f"
+        android:textSize="50sp"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/no_date"
-        android:textSize="50sp"
-        android:textColor="#000"
-        android:layout_margin="30dp"/>
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+
+
+        <NumberPicker
+            android:id="@+id/numPicker0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#aaf"/>
+
+        <NumberPicker
+            android:id="@+id/numPicker1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#aaf"/>
+
+        <NumberPicker
+            android:id="@+id/numPicker2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#aaf"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#aaf"
+            android:gravity="center"
+            android:text="@string/dot"
+            android:textSize="40sp"/>
+
+        <NumberPicker
+            android:id="@+id/numPicker3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#aaf"/>
+
+        <NumberPicker
+            android:id="@+id/numPicker4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#aaf"/>
+
+    </LinearLayout>
 
     <Button
+        android:id="@+id/button1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="showTimePickerDialog"
-        android:layout_margin="30dp"
-        android:text="@string/pick_time"/>
+        android:layout_margin="40dp"
+        android:text="@string/ok"/>
 
 </LinearLayout>
+
+

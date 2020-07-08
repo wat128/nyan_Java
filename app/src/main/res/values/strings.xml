@@ -48,4 +48,8 @@
     <string name="pick_date">Pick Date</string>
     <string name="pick_time">Pick Time</string>
 
+    <string name="number">Number</string>
+    <string name="dot">.</string>
+    <string name="ok">OK</string>
+
 </resources>
