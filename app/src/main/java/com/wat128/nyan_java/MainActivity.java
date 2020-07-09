@@ -45,46 +45,9 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         Log.d("debug", "MainActivity.onCreate");
-
-        int MATCH_PARENT = ViewGroup.LayoutParams.MATCH_PARENT;
-        int WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT;
-
-        RelativeLayout layout = new RelativeLayout(this);
-        layout.setLayoutParams(new RelativeLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
-
-        HorizontalScrollView scrollView = new HorizontalScrollView(this);
-        scrollView.setLayoutParams(new HorizontalScrollView.LayoutParams(MATCH_PARENT, MATCH_PARENT));
-
-        ImageView imageView = new ImageView(this);
-
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image2);
-        imageView.setImageBitmap(bitmap);
-
-        imageView.setLayoutParams(new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        scrollView.addView(imageView);
-        setContentView(scrollView);
-
-
-/* // サンプルみないで記述したコード
-        final int matchParent = ViewGroup.LayoutParams.MATCH_PARENT;
-        final int wrapContent = ViewGroup.LayoutParams.WRAP_CONTENT;
-
-        HorizontalScrollView horizontalScrollView = new HorizontalScrollView(this);
-        horizontalScrollView.setLayoutParams(new HorizontalScrollView.LayoutParams(wrapContent, matchParent));
-
-        ImageView imageView = new ImageView(this);
-        imageView.setImageResource(R.drawable.image2);
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(wrapContent, wrapContent));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-        horizontalScrollView.addView(imageView);
-        setContentView(horizontalScrollView);
-*/ // サンプルみないで記述したコード
-
     }
 }
 
