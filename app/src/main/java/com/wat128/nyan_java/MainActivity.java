@@ -41,25 +41,9 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         Log.d("debug", "MainActivity.onCreate");
-
-        final int matchParent = ViewGroup.LayoutParams.MATCH_PARENT;
-        final int wrapContent = ViewGroup.LayoutParams.WRAP_CONTENT;
-
-        ScrollView scrollView = new ScrollView(this);
-        scrollView.setLayoutParams(new ScrollView.LayoutParams(matchParent, wrapContent));
-
-        ImageView imageView = new ImageView(this);
-
-        imageView.setImageResource(R.drawable.image2);
-
-        imageView.setLayoutParams(new LinearLayout.LayoutParams(matchParent, wrapContent));
-
-        scrollView.addView(imageView);
-
-        setContentView(scrollView);
-
     }
 }
 
