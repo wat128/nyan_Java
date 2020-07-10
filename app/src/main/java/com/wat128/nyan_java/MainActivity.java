@@ -25,7 +25,7 @@ public class MainActivity extends FragmentActivity {
 
         // simple_list_item_1は、デフォルトで用意されているレイアウトファイルのID
         ArrayAdapter<String> arrayAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, texts);
+                new ArrayAdapter<>(this, R.layout.list, texts);
 
         listView.setAdapter(arrayAdapter);
     }
