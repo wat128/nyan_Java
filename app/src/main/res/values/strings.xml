@@ -52,4 +52,7 @@
     <string name="dot">.</string>
     <string name="ok">OK</string>
 
+    <string name="header">Header</string>
+    <string name="footer_button">Footer Button</string>
+
 </resources>

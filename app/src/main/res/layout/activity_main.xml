@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<HorizontalScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ScrollView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:src="@drawable/image"
-            android:scaleType="centerCrop"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+        <!--Header-->
+        <TextView
+            android:text="@string/header"
+            android:background="#888"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
 
-    </ScrollView>
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-</HorizontalScrollView>
+    </LinearLayout>
+
+    <!--Footer-->
+    <Button
+        android:text="@string/footer_button"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
 
 
