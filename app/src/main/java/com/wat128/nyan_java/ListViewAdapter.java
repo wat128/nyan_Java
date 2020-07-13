@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class ListViewAdapter extends BaseAdapter {
 
     static class ViewHolder {
@@ -17,17 +19,17 @@ public class ListViewAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private int itemLayoutId;
-    private String[] titles;
-    private int[] ids;
+    private List<String> titles;
+    private List<Integer> ids;
 
     ListViewAdapter(Context context, int itemLayoutId,
-                    String[] scenes, int[] photos) {
+                    List<String> itemNames, List<Integer> itemImages) {
         super();
         this.inflater = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.itemLayoutId = itemLayoutId;
-        this.titles = scenes;
-        this.ids = photos;
+        this.titles = itemNames;
+        this.ids = itemImages;
     }
 
     @Override
@@ -48,15 +50,15 @@ public class ListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.imageView.setImageResource(ids[position]);
-        holder.textView.setText(titles[position]);
+        holder.imageView.setImageResource(ids.get(position));
+        holder.textView.setText(titles.get(position));
 
         return convertView;
     }
 
     @Override
     public int getCount() {
-        return titles.length;
+        return titles.size();
     }
 
     @Override
