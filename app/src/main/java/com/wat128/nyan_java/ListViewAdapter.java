@@ -1,11 +1,14 @@
 package com.wat128.nyan_java;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -44,6 +47,37 @@ public class ListViewAdapter extends BaseAdapter {
             holder.textView = convertView.findViewById(R.id.textView);
             holder.imageView = convertView.findViewById(R.id.imageView);
             convertView.setTag(holder);
+
+            if(position == 0) {
+                convertView.setBackgroundColor(Color.rgb(255, 127, 255));
+            }
+            else if(position == 1) {
+                convertView.setBackgroundColor(Color.rgb(255, 220, 127));
+            }
+            else if (position == 2) {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, 300);
+
+                convertView.setLayoutParams(params);
+
+                convertView.setBackgroundColor(Color.rgb(127, 127, 255));
+
+                holder.textView.setTextColor(Color.rgb(0, 0, 255));
+                holder.textView.setTextSize(20.0f);
+                holder.textView.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC);
+
+                params = new LinearLayout.LayoutParams(300, 300);
+                params.setMargins(50, 0, 0, 0);
+
+                holder.imageView.setLayoutParams(params);
+
+            }
+            else if(position == 3) {
+                convertView.setBackgroundColor(Color.rgb(127,255,127));
+            }
+            else {
+                convertView.setBackgroundColor(Color.rgb(255,255,127));
+            }
         }
         // holder を使って再利用
         else {

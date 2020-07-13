@@ -32,14 +32,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    private BaseAdapter adapter;
-    private List<String> itemNames;
-    private List<Integer> itemImages;
-    private int tappedPosition = 0;
-
-    private static final String[] scenes = {
+    private static final String[] names = {
             "kina1",
             "kina2",
             "kina3",
@@ -66,130 +61,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        itemNames = new ArrayList<>(Arrays.asList(scenes));
-        itemImages = new ArrayList<>(Arrays.asList(photos));
+        List<String> itemNames = new ArrayList<String>(Arrays.asList(names));
+        List<Integer> itemImages = new ArrayList<Integer>(Arrays.asList(photos));
 
         ListView listView = findViewById(R.id.list_view);
 
-        adapter = new ListViewAdapter(this.getApplicationContext(), R.layout.list, itemNames, itemImages);
+        BaseAdapter adapter = new ListViewAdapter(this.getApplicationContext(), R.layout.list, itemNames, itemImages);
 
         listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(this);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        String item = itemNames.get(position);
-        setPosition(position);
-        alertCheck(item);
-    }
-
-    private void setPosition(final int position) {
-        tappedPosition = position;
-    }
-
-    private int getPosition() {
-        return tappedPosition;
-    }
-
-    private void alertCheck(String item) {
-        String[] alertMenu = {"上に移動", "下に移動", "削除", "cancel"};
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(item);
-        alert.setItems(alertMenu, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                if (which == 0) {        // 上に移動
-                    moveAbove();
-                } else if (which == 1) {   // 下に移動
-                    moveBelow();
-                } else if (which == 2) {   // アイテムの削除
-                    deleteCheck();
-                } else {                  // cancel
-                    Log.d("debug", "cancel");
-                }
-
-            }
-        });
-        alert.show();
-    }
-
-    private void deleteCheck() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-        alertDialogBuilder.setTitle("削除");
-        alertDialogBuilder.setMessage("本当に削除しますか?");
-
-        alertDialogBuilder.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteItem();
-                    }
-                });
-
-        alertDialogBuilder.setNeutralButton("No",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-        alertDialogBuilder.setCancelable(true);
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        alertDialog.show();
-    }
-
-    private void moveAbove() {
-        int position = getPosition();
-
-        if (position > 0) {
-            String str = itemNames.get(position - 1);
-            itemNames.set(position - 1, itemNames.get(position));
-            itemNames.set(position, str);
-
-            int tmp = itemImages.get(position - 1);
-            itemImages.set(position - 1, itemImages.get(position));
-            itemImages.set(position, tmp);
-        } else {
-            Log.d("debug", "error : moveAbove()");
-        }
-
-        adapter.notifyDataSetChanged();
-
-    }
-
-    private void moveBelow() {
-        int position = getPosition();
-        if(position < itemNames.size() - 1) {
-            String str = itemNames.get(position + 1);
-            itemNames.set(position + 1, itemNames.get(position));
-            itemNames.set(position, str);
-
-            int tmp = itemImages.get(position + 1);
-            itemImages.set(position + 1, itemImages.get(position));
-            itemImages.set(position, tmp);
-        } else {
-            Log.d("debug", "error : moveBelow()");
-        }
-
-        adapter.notifyDataSetChanged();
-    }
-
-    private void deleteItem() {
-        int position = getPosition();
-
-        itemNames.remove(position);
-        itemImages.remove(position);
-
-        adapter.notifyDataSetChanged();
     }
 }
 
