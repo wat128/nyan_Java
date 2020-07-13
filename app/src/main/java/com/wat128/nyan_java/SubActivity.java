@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -19,11 +20,16 @@ public class SubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub);
 
-        MyApp myApp = (MyApp)this.getApplication();
-        String str = myApp.getTestString();
+        Intent intent = getIntent();
 
-        TextView textViewSub = findViewById(R.id.textvieww_sub);
-        textViewSub.setText(str);
+        String selectedText = intent.getStringExtra("Text");
+        int selectedPhoto = intent.getIntExtra("Photo", 0);
+
+        TextView textView = findViewById(R.id.selected_text);
+        textView.setText(selectedText);
+
+        ImageView imageView = findViewById(R.id.selected_photo);
+        imageView.setImageResource(selectedPhoto);
 
     }
 }

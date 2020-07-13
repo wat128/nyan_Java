@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -27,9 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private static final String[] names = {
+    private static final String[] scenes = {
             "kina1",
             "kina2",
             "kina3",
@@ -56,17 +57,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String[] emails = new String[names.length];
+        ListView listView = findViewById(R.id.list_view);
 
-        for(int i = 0; i < names.length; ++i) {
-            emails[i] = String.format(Locale.US, "%s@mail.co.jp", names[i]);
-        }
-
-        ListView listView = findViewById(R.id.listView);
-
-        BaseAdapter adapter = new TestAdapter(this.getApplicationContext(), R.layout.list_item, names, emails, photos);
+        BaseAdapter adapter = new ListViewAdapter(this.getApplicationContext(), R.layout.list, scenes, photos);
 
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Intent intent = new Intent(this.getApplicationContext(), SubActivity.class);
+
+        String selectedText = scenes[position];
+        int selectedPhoto = photos[position];
+
+        intent.putExtra("Text", selectedText);
+        intent.putExtra("Photo", selectedPhoto);
+
+        startActivity(intent);
     }
 }
 

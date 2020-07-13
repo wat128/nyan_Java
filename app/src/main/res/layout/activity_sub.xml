@@ -7,30 +7,18 @@
     android:background="#dfe">
 
     <TextView
-        android:text="@string/sub"
-        android:textSize="30sp"
-        android:background="#8c8"
-        android:gravity="center"
-        android:layout_margin="30dp"
-        android:padding="5dp"
+        android:id="@+id/selected_text"
+        android:textSize="20sp"
+        android:textColor="#000"
+        android:layout_marginTop="40dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <LinearLayout
-        android:gravity="center"
-        android:orientation="vertical"
+    <ImageView
+        android:id="@+id/selected_photo"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <TextView
-            android:id="@+id/textvieww_sub"
-            android:textSize="30sp"
-            android:textColor="#000"
-            android:layout_marginBottom="50dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/description"
+        android:scaleType="fitCenter"/>
 
 </LinearLayout>
