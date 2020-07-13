@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -32,43 +34,35 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
 
-    private static final String[] names = {
-            "kina1",
-            "kina2",
-            "kina3",
-            "kina4",
-            "kina5",
-            "kina6",
-            "kina7",
-            "kina8"
-    };
-
-    private static final Integer[] photos = {
-            R.drawable.kina1,
-            R.drawable.kina2,
-            R.drawable.kina3,
-            R.drawable.kina4,
-            R.drawable.kina5,
-            R.drawable.kina6,
-            R.drawable.kina7,
-            R.drawable.kina8
-    };
+    private String[] dataset = new String[20];
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<String> itemNames = new ArrayList<String>(Arrays.asList(names));
-        List<Integer> itemImages = new ArrayList<Integer>(Arrays.asList(photos));
+        RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setHasFixedSize(true);
 
-        ListView listView = findViewById(R.id.list_view);
+        RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(this);
 
-        BaseAdapter adapter = new ListViewAdapter(this.getApplicationContext(), R.layout.list, itemNames, itemImages);
+        recyclerView.setLayoutManager(rLayoutManager);
 
-        listView.setAdapter(adapter);
+        int i = 0;
+        while (i < 20) {
+            dataset[i] = String.format(Locale.ENGLISH, "Data_0%d", i);
+            i++;
+        }
+
+        RecyclerView.Adapter rAdapter = new MyAdapter(dataset);
+        recyclerView.setAdapter(rAdapter);
     }
 }
-
