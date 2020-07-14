@@ -8,11 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.nfc.TagLostException;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,42 +25,31 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    private String[] members = {
-            "kina1",
-            "kina2",
-            "kina3",
-            "kina4",
-            "kina5",
-            "kina6",
-            "kina7",
-            "kina8"
-    };
-
-    private List<Integer> imgList = new ArrayList<>();
+    private IconList icons;
+    private List<Integer> iconList = new ArrayList<>();
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        for(String members : members) {
-            int imageId = getResources().getIdentifier(members, "drawable", getPackageName());
-            imgList.add(imageId);
+        icons = new IconList();
+        for(int i = 0; i < icons.maxNum(); ++i) {
+            iconList.add(icons.getIcon(i));
         }
 
         GridView gridView = findViewById(R.id.grid_view);
 
-        GridAdapter gridAdapter = new GridAdapter(this.getApplicationContext(), R.layout.grid_items, imgList, members);
-
-        gridView.setAdapter(gridAdapter);
-
+        GridAdapter adapter = new GridAdapter(this.getApplicationContext(), R.layout.grid_items, iconList);
+        gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
+
+        textView = (TextView)findViewById(R.id.text_view);
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Intent intent = new Intent(getApplication(), SubActivity.class);
-        intent.putExtra("IMAGEID", imgList.get(position));
-        startActivity(intent);
+        textView.setText(icons.getName(position));
     }
 }
