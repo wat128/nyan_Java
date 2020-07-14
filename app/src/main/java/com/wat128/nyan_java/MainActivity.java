@@ -6,43 +6,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ListActivity;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import java.util.Locale;
-
 public class MainActivity extends AppCompatActivity {
 
-    private String[] dataset = new String[20];
+    private static final String[] names = {
+            "kina1",
+            "kina2",
+            "kina3",
+            "kina4",
+            "kina5",
+            "kina6",
+            "kina7",
+            "kina8"
+    };
+
+    private static final Integer[] photos = {
+            R.drawable.kina1,
+            R.drawable.kina2,
+            R.drawable.kina3,
+            R.drawable.kina4,
+            R.drawable.kina5,
+            R.drawable.kina6,
+            R.drawable.kina7,
+            R.drawable.kina8
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +42,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
+
         recyclerView.setHasFixedSize(true);
 
         RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(this);
 
         recyclerView.setLayoutManager(rLayoutManager);
 
-        int i = 0;
-        while (i < 20) {
-            dataset[i] = String.format(Locale.ENGLISH, "Data_0%d", i);
-            i++;
+        List itemNames = new ArrayList<>(Arrays.asList(names));
+        List itemImages = new ArrayList<>(Arrays.asList(photos));
+
+        List itemEmails = new ArrayList<>();
+
+        for(Object s : itemNames){
+            String str = String.format(Locale.ENGLISH, "%s@gmail.com", s);
+            itemEmails.add(str);
         }
 
-        RecyclerView.Adapter rAdapter = new MyAdapter(dataset);
+        RecyclerView.Adapter rAdapter = new MyAdapter(itemImages, itemNames, itemEmails);
         recyclerView.setAdapter(rAdapter);
+
     }
 }
