@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
+import android.widget.GridView;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String[] names = {
+    private String[] members = {
             "kina1",
             "kina2",
             "kina3",
@@ -25,42 +27,22 @@ public class MainActivity extends AppCompatActivity {
             "kina8"
     };
 
-    private static final Integer[] photos = {
-            R.drawable.kina1,
-            R.drawable.kina2,
-            R.drawable.kina3,
-            R.drawable.kina4,
-            R.drawable.kina5,
-            R.drawable.kina6,
-            R.drawable.kina7,
-            R.drawable.kina8
-    };
+    private List<Integer> imgList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
-
-        recyclerView.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager rLayoutManager = new LinearLayoutManager(this);
-
-        recyclerView.setLayoutManager(rLayoutManager);
-
-        List itemNames = new ArrayList<>(Arrays.asList(names));
-        List itemImages = new ArrayList<>(Arrays.asList(photos));
-
-        List itemEmails = new ArrayList<>();
-
-        for(Object s : itemNames){
-            String str = String.format(Locale.ENGLISH, "%s@gmail.com", s);
-            itemEmails.add(str);
+        for(String members : members) {
+            int imageId = getResources().getIdentifier(members, "drawable", getPackageName());
+            imgList.add(imageId);
         }
 
-        RecyclerView.Adapter rAdapter = new MyAdapter(itemImages, itemNames, itemEmails);
-        recyclerView.setAdapter(rAdapter);
+        GridView gridView = findViewById(R.id.grid_view);
 
+        GridAdapter gridAdapter = new GridAdapter(this.getApplicationContext(), R.layout.grid_items, imgList, members);
+
+        gridView.setAdapter(gridAdapter);
     }
 }
