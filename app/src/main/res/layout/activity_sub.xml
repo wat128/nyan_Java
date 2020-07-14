@@ -6,18 +6,10 @@
     android:layout_height="match_parent"
     android:background="#dfe">
 
-    <TextView
-        android:id="@+id/selected_text"
-        android:textSize="20sp"
-        android:textColor="#000"
-        android:layout_marginTop="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <ImageView
-        android:id="@+id/selected_photo"
+        android:id="@+id/image_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:contentDescription="@string/description"
         android:scaleType="fitCenter"/>
 

@@ -6,7 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -14,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private String[] members = {
             "kina1",
@@ -44,5 +49,14 @@ public class MainActivity extends AppCompatActivity {
         GridAdapter gridAdapter = new GridAdapter(this.getApplicationContext(), R.layout.grid_items, imgList, members);
 
         gridView.setAdapter(gridAdapter);
+
+        gridView.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getApplication(), SubActivity.class);
+        intent.putExtra("IMAGEID", imgList.get(position));
+        startActivity(intent);
     }
 }
