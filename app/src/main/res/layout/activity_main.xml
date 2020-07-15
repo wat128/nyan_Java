@@ -4,28 +4,23 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="#888"
+    android:background="#cfd"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/text_view"
-        android:textSize="30sp"
-        android:textColor="#fff"
-        android:layout_margin="20dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
+        android:text="@string/text"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <GridView
-        android:id="@+id/grid_view"
+    <Button
+        android:id="@+id/button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#888"
-        android:gravity="center"
-        android:horizontalSpacing="2dp"
-        android:verticalSpacing="2dp"
-        android:numColumns="4"
-        android:stretchMode="columnWidth"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="@string/button"
+        android:textSize="20sp"/>
 
 </LinearLayout>
 
