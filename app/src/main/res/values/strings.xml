@@ -55,4 +55,6 @@
     <string name="header">Header</string>
     <string name="footer_button">Footer Button</string>
 
+    <string name="question">どちらのアイコンにしますか</string>
+
 </resources>
