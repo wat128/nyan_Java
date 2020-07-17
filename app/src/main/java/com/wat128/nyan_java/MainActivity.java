@@ -1,65 +1,48 @@
 package com.wat128.nyan_java;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.Image;
-import android.nfc.TagLostException;
+import android.content.Context;
+
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
+
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends AppCompatActivity {
 
-    private SharedPreferences dataStore;
     private EditText editText;
-    private TextView textWrite, textRead;
+    private TextView textView;
+    private String fileName = "test.txt";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dataStore = getSharedPreferences("DataStore", MODE_PRIVATE);
-
+        textView = findViewById(R.id.text_view);
         editText = findViewById(R.id.edit_text);
-        textRead = findViewById(R.id.text_read);
-        textWrite = findViewById(R.id.text_write);
-
-        Button buttonWrite = findViewById(R.id.button_write);
-        buttonWrite.setOnClickListener(new View.OnClickListener() {
+        Button buttonSave = findViewById(R.id.button_save);
+        buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = editText.getText().toString();
-                textWrite.setText(text);
 
-                SharedPreferences.Editor editor = dataStore.edit();
-                editor.putString("input", text);
-                editor.apply();
+                saveFile(fileName, text);
+                if(text.length() == 0)
+                    textView.setText(R.string.no_text);
+                else
+                    textView.setText(R.string.saved);
             }
         });
 
@@ -67,12 +50,41 @@ public class MainActivity extends AppCompatActivity {
         buttonRead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String str = dataStore.getString("input", "Nothing");
-                if(!str.equals("Nothing")){
-                    textRead.setText(str);
-                }
+                String str = readFile(fileName);
+                if(str != null)
+                    textView.setText(str);
+                else
+                    textView.setText(R.string.read_error);
             }
         });
+    }
+
+    public void saveFile(String file, String str) {
+
+        try(FileOutputStream fileOutputStream = openFileOutput(file, Context.MODE_PRIVATE)){
+            fileOutputStream.write(str.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String readFile(String file) {
+        String text = null;
+
+        try (FileInputStream fileInputStream = openFileInput(file);
+             BufferedReader reader= new BufferedReader(
+                     new InputStreamReader(fileInputStream, StandardCharsets.UTF_8))) {
+
+            String lineBuffer;
+            while( (lineBuffer = reader.readLine()) != null ) {
+                text = lineBuffer ;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return text;
     }
 
 }
