@@ -32,29 +32,25 @@
     <string name="move">MOVE</string>
     <string name="back">BACK</string>
     <string name="return_sub">RETURN</string>
-
     <string name="hello_fragment">Hello Fragment</string>
     <string name="activity">Activity</string>
-
     <string name="button01">Button 01</string>
     <string name="pop01">Pop 01</string>
     <string name="button02">Button 02</string>
     <string name="pop02">Pop 02</string>
-
     <string name="start">Start Service</string>
     <string name="stop">Stop Service</string>
-
     <string name="no_date">No Date</string>
     <string name="pick_date">Pick Date</string>
     <string name="pick_time">Pick Time</string>
-
     <string name="number">Number</string>
     <string name="dot">.</string>
     <string name="ok">OK</string>
-
     <string name="header">Header</string>
     <string name="footer_button">Footer Button</string>
-
     <string name="question">どちらのアイコンにしますか</string>
+
+    <string name="read">Read</string>
+    <string name="write">Write</string>
 
 </resources>

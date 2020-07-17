@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.nfc.TagLostException;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,90 +35,44 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView imageView;
-    private TextView textView;
-    private DialogFragment dialogFragment;
-    private FragmentManager fragmentManager;
+    private SharedPreferences dataStore;
+    private EditText editText;
+    private TextView textWrite, textRead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.text_view);
-        imageView = findViewById(R.id.image_view);
+        dataStore = getSharedPreferences("DataStore", MODE_PRIVATE);
 
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        editText = findViewById(R.id.edit_text);
+        textRead = findViewById(R.id.text_read);
+        textWrite = findViewById(R.id.text_write);
+
+        Button buttonWrite = findViewById(R.id.button_write);
+        buttonWrite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentManager = getSupportFragmentManager();
+                String text = editText.getText().toString();
+                textWrite.setText(text);
 
-                dialogFragment = new AlertDialogFragment();
+                SharedPreferences.Editor editor = dataStore.edit();
+                editor.putString("input", text);
+                editor.apply();
+            }
+        });
 
-                dialogFragment.show(fragmentManager, "test alert dialog");
+        Button buttonRead = findViewById(R.id.button_read);
+        buttonRead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str = dataStore.getString("input", "Nothing");
+                if(!str.equals("Nothing")){
+                    textRead.setText(str);
+                }
             }
         });
     }
 
-    public void setSelection(final String str) {
-        textView.setText(str);
-        if(str.equals("bag clicked"))
-            imageView.setImageResource(R.drawable.bag);
-        else
-            imageView.setImageResource(R.drawable.ic_launcher_foreground);
-    }
-
-    public static class AlertDialogFragment extends DialogFragment {
-
-        AlertDialog dialog;
-        AlertDialog.Builder alert;
-        View alertView;
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
-            alert = new AlertDialog.Builder(getActivity());
-            alert.setTitle("Custom AlertDialog");
-
-            if(getActivity() != null)
-                alertView = getActivity().getLayoutInflater().inflate(R.layout.alert_layout, null);
-
-            ImageView bag = alertView.findViewById(R.id.bag);
-            bag.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("debug", "bag clicked");
-                    setMessage("bag clicked");
-                    getDialog().dismiss();
-                }
-            });
-
-            ImageView mrAndroid = alertView.findViewById(R.id.mr_android);
-            mrAndroid.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d("debug", "Mr.Android clicked");
-                    setMessage("Mr.Android clicked");
-                    getDialog().dismiss();
-                }
-            });
-
-            alert.setView(alertView);
-
-            dialog = alert.create();
-            dialog.show();
-
-            return dialog;
-
-        }
-
-        private void setMessage(String message) {
-            MainActivity mainActivity = (MainActivity)getActivity();
-            if(mainActivity != null) {
-                mainActivity.setSelection(message);
-            }
-        }
-    }
 }
