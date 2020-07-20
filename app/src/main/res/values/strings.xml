@@ -54,8 +54,10 @@
     <string name="write">Write</string>
 
     <string name="no_text">No Text !</string>
+    <string name="save">Save</string>
     <string name="saved">Saved</string>
     <string name="read_error">Read file error !</string>
     <string name="save_file">Save file</string>
     <string name="read_file">Read file</string>
+    <string name="error">Error</string>
 </resources>
