@@ -60,4 +60,8 @@
     <string name="save_file">Save file</string>
     <string name="read_file">Read file</string>
     <string name="error">Error</string>
+
+    <string name="hint_key">company</string>
+    <string name="hint_value">US$price</string>
+    <string name="insert">insert</string>
 </resources>
