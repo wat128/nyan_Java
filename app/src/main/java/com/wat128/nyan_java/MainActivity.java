@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.util.Log;
@@ -19,16 +20,9 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity implements Runnable, View.OnClickListener {
-
-    private long startTime;
+public class MainActivity extends AppCompatActivity {
 
     private TextView timerText;
-    private Button startButton;
-
-    private final Handler handler = new Handler();
-    private volatile boolean stopRun = false;
-
     private SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss.SS", Locale.JAPAN);
 
     @Override
@@ -36,55 +30,46 @@ public class MainActivity extends AppCompatActivity implements Runnable, View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final long  countNumber = 180000;
+        final long interval = 10;
+        final CountDown countDown = new CountDown(countNumber, interval);
+
         timerText = findViewById(R.id.timer);
         timerText.setText(dataFormat.format(0));
 
-        startButton = findViewById(R.id.start_button);
-        startButton.setOnClickListener(this);
+        Button startButton = findViewById(R.id.start_button);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                countDown.start();
+            }
+        });
 
         Button stopButton = findViewById(R.id.stop_button);
-        stopButton.setOnClickListener(this);
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                countDown.cancel();
+                timerText.setText(dataFormat.format(0));
+            }
+        });
 
     }
 
-    @Override
-    public void onClick(View v) {
-        Thread thread;
+    class CountDown extends CountDownTimer {
 
-        if(v == startButton) {
-            stopRun = false;
-            thread = new Thread(this);
-            thread.start();
+        CountDown(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
 
-            startTime = System.currentTimeMillis();
-        } else {
-            stopRun = true;
+        @Override
+        public void onFinish() {
             timerText.setText(dataFormat.format(0));
         }
-    }
 
-    @Override
-    public void run() {
-        int period = 10;
-
-        while(!stopRun) {
-
-            try {
-                Thread.sleep(period);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                stopRun = true;
-            }
-
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    long endTime = System.currentTimeMillis();
-                    long diffTime = endTime - startTime;
-
-                    timerText.setText(dataFormat.format(diffTime));
-                }
-            });
+        @Override
+        public void onTick(long millisUntilFinished) {
+            timerText.setText(dataFormat.format(millisUntilFinished));
         }
     }
 }
