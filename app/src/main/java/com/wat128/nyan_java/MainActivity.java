@@ -21,21 +21,27 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Timer timer;
     private Handler handler = new Handler();
 
     private TextView timerText;
-    private long delay, period;
-    private int count;
+    private final SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss.S", Locale.US);
+    private int count, period;
 
-    private SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss.S", Locale.US);
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            count++;
+            timerText.setText(dataFormat.format(count * period));
+            handler.postDelayed(this, period);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        delay = 0;
+        count = 0;
         period = 100;
 
         timerText = findViewById(R.id.timer);
@@ -45,39 +51,17 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null != timer){
-                    timer.cancel();
-                    timer = null;
-                }
-
-                timer = new Timer();
-                count = 0;
-                timerText.setText(dataFormat.format(0));
-
-                timer.scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                ++count;
-                                timerText.setText(dataFormat.format(count * period));
-                            }
-                        });
-                    }
-                }, delay, period);
+                handler.post(runnable);
             }
         });
 
         Button stopButton = findViewById(R.id.stop_button);
-        stopButton.setOnClickListener(new View.OnClickListener(){
+        stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(null != timer){
-                    timer.cancel();
-                    timer = null;
-                    timerText.setText(dataFormat.format(0));
-                }
+                handler.removeCallbacks(runnable);
+                timerText.setText(dataFormat.format(0));
+                count = 0;
             }
         });
     }
