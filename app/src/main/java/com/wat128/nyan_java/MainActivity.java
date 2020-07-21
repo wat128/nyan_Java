@@ -14,6 +14,7 @@ import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,12 +22,13 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
 
     private Timer timer;
-    private CountUpTimerTask timerTask;
     private Handler handler = new Handler();
 
     private TextView timerText;
-    private long count, delay, period;
-    private String zero;
+    private long delay, period;
+    private int count;
+
+    private SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss.S", Locale.US);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         delay = 0;
         period = 100;
-        zero = getString(R.string.zero);
 
         timerText = findViewById(R.id.timer);
-        timerText.setText(zero);
+        timerText.setText(dataFormat.format(0));
 
         Button startButton = findViewById(R.id.start_button);
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -50,11 +51,21 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 timer = new Timer();
-                timerTask = new CountUpTimerTask();
-                timer.schedule(timerTask, delay, period);
                 count = 0;
-                timerText.setText(zero);
+                timerText.setText(dataFormat.format(0));
 
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                ++count;
+                                timerText.setText(dataFormat.format(count * period));
+                            }
+                        });
+                    }
+                }, delay, period);
             }
         });
 
@@ -65,26 +76,9 @@ public class MainActivity extends AppCompatActivity {
                 if(null != timer){
                     timer.cancel();
                     timer = null;
-                    timerText.setText(zero);
+                    timerText.setText(dataFormat.format(0));
                 }
             }
         });
-    }
-
-    class CountUpTimerTask extends TimerTask {
-        @Override
-        public void run() {
-            handler.post(new Runnable() {
-                public void run() {
-                    count++;
-                    long mm = count*100 / 1000 / 60;
-                    long ss = count*100 / 1000 % 60;
-                    long ms = (count*100 - ss * 1000 - mm * 1000 * 60)/100;
-
-                    timerText.setText(
-                            String.format(Locale.US, "%1$02d:%2$02d.%3$01d", mm, ss, ms));
-                }
-            });
-        }
     }
 }
