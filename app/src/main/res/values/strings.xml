@@ -64,4 +64,6 @@
     <string name="hint_key">company</string>
     <string name="hint_value">US$price</string>
     <string name="insert">insert</string>
+    
+    <string name="zero">"00:00.0"</string>
 </resources>
