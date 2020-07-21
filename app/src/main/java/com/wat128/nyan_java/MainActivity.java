@@ -19,50 +19,72 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Runnable, View.OnClickListener {
 
-    private Handler handler = new Handler();
+    private long startTime;
 
     private TextView timerText;
-    private final SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss.S", Locale.US);
-    private int count, period;
+    private Button startButton;
 
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            count++;
-            timerText.setText(dataFormat.format(count * period));
-            handler.postDelayed(this, period);
-        }
-    };
+    private final Handler handler = new Handler();
+    private volatile boolean stopRun = false;
+
+    private SimpleDateFormat dataFormat = new SimpleDateFormat("mm:ss.SS", Locale.JAPAN);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        count = 0;
-        period = 100;
-
         timerText = findViewById(R.id.timer);
         timerText.setText(dataFormat.format(0));
 
-        Button startButton = findViewById(R.id.start_button);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handler.post(runnable);
-            }
-        });
+        startButton = findViewById(R.id.start_button);
+        startButton.setOnClickListener(this);
 
         Button stopButton = findViewById(R.id.stop_button);
-        stopButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handler.removeCallbacks(runnable);
-                timerText.setText(dataFormat.format(0));
-                count = 0;
+        stopButton.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        Thread thread;
+
+        if(v == startButton) {
+            stopRun = false;
+            thread = new Thread(this);
+            thread.start();
+
+            startTime = System.currentTimeMillis();
+        } else {
+            stopRun = true;
+            timerText.setText(dataFormat.format(0));
+        }
+    }
+
+    @Override
+    public void run() {
+        int period = 10;
+
+        while(!stopRun) {
+
+            try {
+                Thread.sleep(period);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                stopRun = true;
             }
-        });
+
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    long endTime = System.currentTimeMillis();
+                    long diffTime = endTime - startTime;
+
+                    timerText.setText(dataFormat.format(diffTime));
+                }
+            });
+        }
     }
 }
