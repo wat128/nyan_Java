@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:name=".MyApp"
@@ -30,6 +31,9 @@
 
         <service android:name=".TestService"/>
         <service android:name=".TestIntentService"/>
+
+        <receiver android:name=".AlarmBroadcastReceiver"
+            android:process=":remote"/>
 
     </application>
 
