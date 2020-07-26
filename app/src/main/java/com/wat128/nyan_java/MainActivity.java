@@ -28,35 +28,60 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
+    private AlarmManager am;
+    private PendingIntent pending;
+    private int requestCode = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button button = findViewById(R.id.button_01);
-        button.setText("Alarm Start");
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonStart = this.findViewById(R.id.button_start);
+        buttonStart.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
-                calendar.add(Calendar.SECOND, 5);
+                calendar.add(Calendar.SECOND, 10);
 
-                Intent intent = new Intent(getApplicationContext(), AlarmBroadcastReceiver.class);
-                PendingIntent pendingIntent =
-                        PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
+                Intent intent = new Intent(getApplicationContext(), AlarmNotification.class);
+                intent.putExtra("RequestCode",requestCode);
 
-                AlarmManager manager = (AlarmManager)getSystemService(ALARM_SERVICE);
-                if(manager != null) {
+                pending = PendingIntent.getBroadcast(
+                        getApplicationContext(),requestCode, intent, 0);
 
-                    manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                am = (AlarmManager) getSystemService(ALARM_SERVICE);
+                if (am != null) {
+                    am.setExact(AlarmManager.RTC_WAKEUP,
+                            calendar.getTimeInMillis(), pending);
 
-                    Toast.makeText(getApplicationContext(), "Set Alarm", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "alarm start", Toast.LENGTH_SHORT).show();
 
+                    Log.d("debug", "start");
                 }
             }
         });
 
+        Button buttonCancel = findViewById(R.id.button_cancel);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent indent = new Intent(getApplicationContext(), AlarmNotification.class);
+                PendingIntent pending = PendingIntent.getBroadcast(getApplicationContext(), requestCode, indent, 0);
+
+                AlarmManager am = (AlarmManager)MainActivity.this.getSystemService(ALARM_SERVICE);
+                if (am != null) {
+                    am.cancel(pending);
+                    Toast.makeText(getApplicationContext(), "alarm cancel", Toast.LENGTH_SHORT).show();
+                    Log.d("debug", "cancel");
+                }else{
+                    Log.d("debug", "null");
+                }
+            }
+        });
     }
 }
