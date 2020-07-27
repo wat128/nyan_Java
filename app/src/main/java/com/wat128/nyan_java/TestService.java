@@ -1,5 +1,7 @@
 package com.wat128.nyan_java;
 
+import android.app.AlarmManager;
+import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -7,6 +9,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.os.IBinder;
@@ -26,100 +29,91 @@ import androidx.annotation.Nullable;
 
 public class TestService extends Service {
 
-    private View view;
-    private WindowManager windowManager;
-    private int dpScale ;
+    private Context context;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        dpScale = (int)getResources().getDisplayMetrics().density;
+        context = getApplicationContext();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        InternalFileReadWrite fileReadWrite = new InternalFileReadWrite(context);
+        fileReadWrite.writeFile();
 
-        Context context = getApplicationContext();
-        String channelId = "default";
+        int requestCode = intent.getIntExtra("REQUEST_CODE", 0);
+
+        String channelid = "default";
         String title = context.getString(R.string.app_name);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, requestCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationChannel channel = new NotificationChannel( channelId, title , NotificationManager.IMPORTANCE_DEFAULT);
+        NotificationChannel channel = new NotificationChannel(channelid, title, NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription("Silent Notification");
+        channel.setSound(null, null);
+        channel.enableLights(false);
+        channel.setLightColor(Color.BLUE);
+        channel.enableVibration(false);
 
-        if(notificationManager != null){
-
+        if(notificationManager != null) {
             notificationManager.createNotificationChannel(channel);
-
-            Notification notification = new Notification.Builder(context, channelId)
+            Notification notification = new Notification.Builder(context, channelid)
                     .setContentTitle(title)
                     .setSmallIcon(android.R.drawable.btn_star)
-                    .setContentText("APPLICATION_OVERLAY")
+                    .setContentText("Alarm Counter")
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                     .setWhen(System.currentTimeMillis())
                     .build();
 
             startForeground(1, notification);
+
         }
 
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        setNextAlarmService(context);
 
-        int typeLayer = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        return START_NOT_STICKY;
+    }
 
-        windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+    private void setNextAlarmService(Context context) {
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams (
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                typeLayer,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.TRANSLUCENT);
+        long repearPeriod = 15 * 60 * 1000;
 
-        params.gravity=  Gravity.TOP | Gravity.END;
-        params.x = 20 * dpScale;
-        params.y = 80 * dpScale;
+        Intent intent = new Intent(context, TestService.class);
 
-        final ViewGroup nullParent = null;
-        view = layoutInflater.inflate(R.layout.service_layer, nullParent);
+        long startMills = System.currentTimeMillis() + repearPeriod;
 
-        view.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.d("debug","onTouch");
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
+        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        if(alarmManager != null) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, startMills, pendingIntent);
+        }
+    }
 
-                if(event.getAction() == MotionEvent.ACTION_DOWN){
-                    Log.d("debug","ACTION_DOWN");
-                }
+    private void stopAlarmService() {
+        Intent intent = new Intent(context, TestService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
 
-                if(event.getAction() == MotionEvent.ACTION_UP){
-                    Log.d("debug","ACTION_UP");
-                    view.performClick();
-                    stopSelf();
-                }
-
-                return false;
-            }
-        });
-
-        windowManager.addView(view, params);
-
-        return super.onStartCommand(intent, flags, startId);
+        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        if(alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("debug","onDestroy");
-        windowManager.removeView(view);
+        stopSelf();;
     }
 
+    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 }
+
