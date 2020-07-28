@@ -32,34 +32,46 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity{
 
+    private TestTask testTask;
     private TextView textView;
-    private HeavyTask heavyTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        heavyTask = new HeavyTask();
+        textView = findViewById(R.id.text_view);
 
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonStart = findViewById(R.id.button_start);
+        buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                heavyTask.setListener(createListener());
-                heavyTask.taskStart();
+                testTask = new TestTask();
+                testTask.setListener(createListener());
+                testTask.execute(0);
+            }
+        });
+
+        Button buttonClear = findViewById(R.id.button_clear);
+        buttonClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textView.setText(String.valueOf(0));
             }
         });
     }
 
-    private HeavyTask.TestListener createListener() {
-        return new HeavyTask.TestListener() {
-            @Override
-            public void onSuccess(int result) {
-                textView = findViewById(R.id.text_view);
-                textView.setText(String.valueOf(result));
+    @Override
+    protected void onDestroy() {
+        testTask.setListener(null);
+        super.onDestroy();
+    }
 
-                Log.d("debug", String.valueOf(result));
+    private TestTask.Listener createListener() {
+        return new TestTask.Listener() {
+            @Override
+            public void onSuccess(int count) {
+                textView.setText(String.valueOf(count));
             }
         };
     }

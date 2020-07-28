@@ -65,8 +65,10 @@
     <string name="hint_value">US$price</string>
     <string name="insert">insert</string>
 
-    <string name="zero">"00:00.0"</string>
+    <string name="zero">"0"</string>
     <string name="cancel">Cancel</string>
     <string name="log">Log</string>
     <string name="reset">Reset</string>
+    <string name="clear">Clear</string>
+
 </resources>
