@@ -31,47 +31,78 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView;
-    private InternalFileReadWrite fileReadWrite;
+    private Context context;
+    private int waitPeriod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Context context = getApplicationContext();
+        Log.d("debug", "onCreate()");
 
-        fileReadWrite = new InternalFileReadWrite(context);
+        context = getApplicationContext();
+        waitPeriod = 5000;
 
-        Button buttonStart = findViewById(R.id.button_start);
-        buttonStart.setOnClickListener(new View.OnClickListener() {
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), TestService.class);
-                intent.putExtra("REQUEST_CODE", 1);
-
-                startForegroundService(intent);
+                restart(context, waitPeriod);
             }
         });
+    }
 
-        Button buttonLog = findViewById(R.id.button_log);
-        buttonLog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                textView.setText(fileReadWrite.readFile());
-            }
-        });
+    private void restart(Context context, int period) {
 
-        Button buttonStop = findViewById(R.id.button_reset);
-        buttonStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), TestService.class);
-                stopService(intent);
+        Intent mainActivity = new Intent(context, MainActivity.class);
 
-                fileReadWrite.clearFile();
-                textView.setText("");
-            }
-        });
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                context, 0, mainActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+
+        if(alarmManager != null) {
+            long trigger = System.currentTimeMillis() + period;
+            alarmManager.setExact(AlarmManager.RTC, trigger, pendingIntent);
+        }
+
+        finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("debug", "onStart()");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("debug", "onRestart()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("debug", "onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("debug", "onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("debug", "onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("debug", "onDestroy()");
     }
 }
