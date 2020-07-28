@@ -29,80 +29,22 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
-
-    private Context context;
-    private int waitPeriod;
+public class MainActivity extends AppCompatActivity implements HeavyTask.TestListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("debug", "onCreate()");
+        HeavyTask heavyTask = new HeavyTask();
 
-        context = getApplicationContext();
-        waitPeriod = 5000;
+        heavyTask.setListener(this);
 
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                restart(context, waitPeriod);
-            }
-        });
-    }
-
-    private void restart(Context context, int period) {
-
-        Intent mainActivity = new Intent(context, MainActivity.class);
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-                context, 0, mainActivity, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-
-        if(alarmManager != null) {
-            long trigger = System.currentTimeMillis() + period;
-            alarmManager.setExact(AlarmManager.RTC, trigger, pendingIntent);
-        }
-
-        finish();
+        heavyTask.taskStart();
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d("debug", "onStart()");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d("debug", "onRestart()");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("debug", "onResume()");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("debug", "onPause()");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("debug", "onStop()");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("debug", "onDestroy()");
+    public void onSuccess(int result) {
+        Log.d("debug", String.valueOf(result));
     }
 }
