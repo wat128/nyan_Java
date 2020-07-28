@@ -34,17 +34,18 @@ public class MainActivity extends AppCompatActivity implements HeavyTask.TestLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         HeavyTask heavyTask = new HeavyTask();
 
-        heavyTask.setListener(this);
-
-        heavyTask.taskStart();
+        heavyTask.TaskStart(new HeavyTask.TestListener() {
+            @Override
+            public void onSuccess(int result) {
+                Log.d("debug", String.valueOf(result));
+            }
+        });
     }
 
     @Override
     public void onSuccess(int result) {
-        Log.d("debug", String.valueOf(result));
     }
 }
