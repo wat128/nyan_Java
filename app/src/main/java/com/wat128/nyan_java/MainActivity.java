@@ -23,29 +23,44 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity implements HeavyTask.TestListener {
+public class MainActivity extends AppCompatActivity{
+
+    private TextView textView;
+    private HeavyTask heavyTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        HeavyTask heavyTask = new HeavyTask();
+        heavyTask = new HeavyTask();
 
-        heavyTask.TaskStart(new HeavyTask.TestListener() {
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(int result) {
-                Log.d("debug", String.valueOf(result));
+            public void onClick(View v) {
+                heavyTask.setListener(createListener());
+                heavyTask.taskStart();
             }
         });
     }
 
-    @Override
-    public void onSuccess(int result) {
+    private HeavyTask.TestListener createListener() {
+        return new HeavyTask.TestListener() {
+            @Override
+            public void onSuccess(int result) {
+                textView = findViewById(R.id.text_view);
+                textView.setText(String.valueOf(result));
+
+                Log.d("debug", String.valueOf(result));
+            }
+        };
     }
 }
