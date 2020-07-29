@@ -102,7 +102,9 @@ public class MainActivity extends AppCompatActivity{
 
         AudioTrack audioTrack = new AudioTrack.Builder()
                 .setAudioAttributes(new AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        // setUsage()は音声ストリームの指定と考えられるため、USAGE_VOICE_COMMUNICATIONの際は
+                        // 着信・通知の音量を使用することになる。USAGE_MEDIAはメディアの音量が使用される。
+                        .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
                         .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
                         .build())
                 .setAudioFormat(new AudioFormat.Builder()
@@ -112,7 +114,7 @@ public class MainActivity extends AppCompatActivity{
                         .build())
                 .setBufferSizeInBytes(bufSize)
                 .build();
-        
+
         audioTrack.play();
 
         audioTrack.write(wavData, 44, wavData.length - 44);
