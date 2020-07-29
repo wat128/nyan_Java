@@ -41,7 +41,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity{
 
-    private static final int SamplingRate = 44100;
+    private static final int SamplingRate = 33100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity{
 
         }
 
+
+
         int bufSize = android.media.AudioTrack.getMinBufferSize(
                 SamplingRate,
                 AudioFormat.CHANNEL_OUT_MONO,
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity{
 
         AudioTrack audioTrack = new AudioTrack.Builder()
                 .setAudioAttributes(new AudioAttributes.Builder()
-                        .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
                         .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
                         .build())
                 .setAudioFormat(new AudioFormat.Builder()
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity{
                         .build())
                 .setBufferSizeInBytes(bufSize)
                 .build();
-
+        
         audioTrack.play();
 
         audioTrack.write(wavData, 44, wavData.length - 44);
