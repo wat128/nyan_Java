@@ -10,7 +10,10 @@ import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.AudioAttributes;
+import android.media.AudioFormat;
 import android.media.AudioManager;
+import android.media.AudioTrack;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -26,7 +29,9 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,7 +41,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity{
 
-    private MediaPlayer mediaPlayer;
+    private static final int SamplingRate = 44100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,74 +52,69 @@ public class MainActivity extends AppCompatActivity{
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                audioPlay();
-            }
-        });
-
-        Button buttonStop = findViewById(R.id.button_clear);
-        buttonStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mediaPlayer != null)
-                    audioStop();
+                wavPlay();
             }
         });
     }
 
-    private boolean audioSetup() {
-        boolean fileCheck = false;
+    private void wavPlay() {
+        InputStream input = null;
+        byte[] wavData = null;
 
-        mediaPlayer = new MediaPlayer();
+        try {
 
-        String filePath = "Once again.mp3";
+            input = getResources().openRawResource(R.raw.sample);
+            wavData = new byte[input.available()];
 
-        try(AssetFileDescriptor afdescripter = getAssets().openFd(filePath);)
-        {
-            mediaPlayer.setDataSource(afdescripter.getFileDescriptor(),
-                    afdescripter.getStartOffset(),
-                    afdescripter.getLength());
+            String readBytes = String.format(
+                    Locale.US, "read bytes = %d",input.read(wavData));
+            Log.d("debug",readBytes);
+            input.close();
 
-            setVolumeControlStream(AudioManager.STREAM_MUSIC);
-            mediaPlayer.prepare();
-            fileCheck = true;
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
+        } catch (FileNotFoundException fne) {
 
-        return fileCheck;
-    }
+            fne.printStackTrace();
 
-    private void audioPlay() {
+        } catch (IOException ioe) {
 
-        if(mediaPlayer == null) {
+            ioe.printStackTrace();
+            Log.d("debug", "error");
 
-            if(audioSetup())
-                Toast.makeText(getApplication(), "Read audio file", Toast.LENGTH_SHORT).show();
-            else{
-                Toast.makeText(getApplication(), "Error: read audio file", Toast.LENGTH_SHORT).show();
-                return;
+        } finally{
+
+            try{
+
+                if(input != null)
+                    input.close();
+
+            }catch(Exception e){
+                e.printStackTrace();
             }
-        }
-        else {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            mediaPlayer.release();;
+
         }
 
-        mediaPlayer.start();
+        int bufSize = android.media.AudioTrack.getMinBufferSize(
+                SamplingRate,
+                AudioFormat.CHANNEL_OUT_MONO,
+                AudioFormat.ENCODING_PCM_16BIT);
 
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                audioSetup();
-            }
-        });
+        AudioTrack audioTrack = new AudioTrack.Builder()
+                .setAudioAttributes(new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                        .build())
+                .setAudioFormat(new AudioFormat.Builder()
+                        .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+                        .setSampleRate(SamplingRate)
+                        .setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
+                        .build())
+                .setBufferSizeInBytes(bufSize)
+                .build();
+
+        audioTrack.play();
+
+        audioTrack.write(wavData, 44, wavData.length - 44);
     }
 
-    private void audioStop() {
-        mediaPlayer.stop();;
-        mediaPlayer.reset();
-        mediaPlayer.release();
-        mediaPlayer = null;
-    }
+
 }
