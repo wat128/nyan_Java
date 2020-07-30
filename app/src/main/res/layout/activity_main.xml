@@ -3,22 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#dfe"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button_start"
-        android:text="1"
-        android:layout_margin="10dp"
+    <ImageView
+        android:src="@drawable/bag"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/app_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/button_clear"
-        android:text="2"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
