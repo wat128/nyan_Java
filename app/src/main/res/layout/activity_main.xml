@@ -19,11 +19,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#ffa080"
-        android:paddingBottom="20dp"
-        android:paddingStart="40dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="40dp"
-        android:text="Padding1"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="40dp"
+        android:text="margin1"
         android:textSize="20sp"
         android:textColor="#ffffff" />
 
@@ -31,18 +31,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#a080ff"
-        android:padding="20dp"
-        android:text="Padding2"
+        android:layout_margin="20dp"
+        android:text="margin2"
         android:textSize="20sp"
         android:textColor="#ffffff" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="40dp"
-        android:paddingStart="20dp"
-        android:paddingEnd="50dp"
-        android:paddingTop="20dp"
+        android:layout_marginBottom="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="20dp"
         android:text="@string/button"
         android:textSize="20sp" />
 
@@ -50,10 +50,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/bag"
-        android:paddingBottom="20dp"
-        android:paddingStart="40dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="40dp"
         android:background="#a0f0a0"
         android:contentDescription="Bag"/>
 
