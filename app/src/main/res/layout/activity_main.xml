@@ -1,61 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#008000"
-        android:text="TextView"
-        android:textSize="20sp"
-        android:textColor="#ffffff" />
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#ffa080"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="40dp"
-        android:text="margin1"
-        android:textSize="20sp"
-        android:textColor="#ffffff" />
+        <Button
+            android:id="@+id/button_11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1,1"/>
+        <Button
+            android:id="@+id/button_12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1,2"/>
+        <Button
+            android:id="@+id/button_13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1,3"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#a080ff"
-        android:layout_margin="20dp"
-        android:text="margin2"
-        android:textSize="20sp"
-        android:textColor="#ffffff" />
+    </TableRow>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/button"
-        android:textSize="20sp" />
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/bag"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="40dp"
-        android:background="#a0f0a0"
-        android:contentDescription="Bag"/>
+        <Button
+            android:id="@+id/button_21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2,1"/>
+        <Button
+            android:id="@+id/button_22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2,2"/>
+        <Button
+            android:id="@+id/button_23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2,3"/>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/button_31"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3,1"/>
+        <Button
+            android:id="@+id/button_32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3,2"/>
+        <Button
+            android:id="@+id/button_33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3,3"/>
+
+    </TableRow>
 
 
-</LinearLayout>
+</TableLayout>
