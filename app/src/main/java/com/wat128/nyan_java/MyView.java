@@ -15,51 +15,44 @@ public class MyView extends View {
 
     private Paint paint;
     private Path path;
-    private Boolean viewflg;
+    private int yval = 0;
 
     public MyView(Context context, AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
         path = new Path();
-        viewflg = true;
+        yval = 450;
     }
 
-    public void showCanvas(boolean flg) {
-        viewflg = flg;
-        invalidate();
+    public void setPosition(int pos) {
+        yval = pos;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         Log.d("TestView", "onDraw()");
 
-        if(viewflg) {
-            canvas.drawColor(Color.argb(255, 0, 0, 125));
+        canvas.drawColor(Color.argb(255, 0, 0, 125));
 
 
-            // Circle
-            paint.setColor(Color.argb(255,125,125,255));
-            paint.setStrokeWidth(30);
-            paint.setAntiAlias(true);
-            paint.setStyle(Paint.Style.STROKE);
+        // Circle
+        paint.setColor(Color.argb(255,125,125,255));
+        paint.setStrokeWidth(30);
+        paint.setAntiAlias(true);
+        paint.setStyle(Paint.Style.STROKE);
 
-            canvas.drawCircle(450,450,100, paint);
+        canvas.drawCircle(450,yval,200, paint);
 
-            // Rect
-            paint.setColor(Color.argb(255,255,0,255));
-            paint.setStrokeWidth(10);
-            paint.setStyle(Paint.Style.STROKE);
-            canvas.drawRect(480,480,850,880, paint);
+        // Rect
+        paint.setColor(Color.argb(255,255,0,255));
+        paint.setStrokeWidth(10);
+        paint.setStyle(Paint.Style.STROKE);
+        canvas.drawRect(480,480,850,880, paint);
 
-            // Line
-            paint.setStrokeWidth(15);
-            paint.setColor(Color.argb(255,0,255,0));
-            canvas.drawLine(350,850,750,630, paint);
+        // Line
+        paint.setStrokeWidth(15);
+        paint.setColor(Color.argb(255,0,255,0));
+        canvas.drawLine(350,850,750,630, paint);
 
-        } else {
-            Log.d("TestView", " viewflg = false");
-
-            canvas.drawColor(0, PorterDuff.Mode.CLEAR);
-        }
     }
 }
