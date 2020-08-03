@@ -15,42 +15,37 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private int yval = 0;
+    private Arc arc;
+    private int endAngle = 0;
+    final private int animationPeriod = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        TestView testView = new TestView(this);
-        setContentView(testView);
+        endAngle = 88 * 360 / 100;
 
-        int endPostion = 1000;
-        TestAnimation testAnimation = new TestAnimation(testView, endPostion);
-        testAnimation.setDuration(5000);
-        testView.startAnimation(testAnimation);
-    }
+        arc = findViewById(R.id.arc);
 
-    public class TestView extends View {
+        Button buttonStart = findViewById(R.id.button_start);
+        buttonStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimationArc animation = new AnimationArc(arc, endAngle);
+                animation.setDuration(animationPeriod);
+                arc.startAnimation(animation);
+            }
+        });
 
-        Paint paint = new Paint();
-
-        public TestView(Context context) {
-            super(context);
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-            paint.setColor(Color.argb(255,125,125,125));
-            canvas.drawRect(400,100+yval, 600,300+yval, paint);
-
-        }
-
-        public int getPosition() {
-            return yval;
-        }
-
-        public void setPosition(int pos) {
-            yval = pos;
-        }
+        Button buttonReset = findViewById(R.id.button_reset);
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimationArc animation = new AnimationArc(arc, 0);
+                animation.setDuration(0);
+                arc.startAnimation(animation);
+            }
+        });
     }
 }

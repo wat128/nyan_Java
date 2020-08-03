@@ -5,7 +5,7 @@ import android.view.animation.Transformation;
 
 public class TestAnimation extends Animation {
 
-    private int currentPosition = 0;
+/*    private int currentPosition = 0;
     private int endPosition = 0;
 
     private MainActivity.TestView testView;
@@ -23,5 +23,5 @@ public class TestAnimation extends Animation {
 
         testView.setPosition(pp);
         testView.requestLayout();
-    }
+    }*/
 }
