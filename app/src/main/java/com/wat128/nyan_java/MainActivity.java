@@ -1,5 +1,6 @@
 package com.wat128.nyan_java;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -7,6 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -18,127 +21,123 @@ import android.widget.TextView;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager sensorManager;
-    private TextView textView;
-
-    private int[] sensorList = {
-            Sensor.TYPE_ACCELEROMETER,
-            Sensor.TYPE_ACCELEROMETER_UNCALIBRATED,
-            Sensor.TYPE_AMBIENT_TEMPERATURE,
-            Sensor.TYPE_DEVICE_PRIVATE_BASE,
-            Sensor.TYPE_GAME_ROTATION_VECTOR,
-            //
-            Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR,
-            Sensor.TYPE_GRAVITY,
-            Sensor.TYPE_GYROSCOPE,
-            Sensor.TYPE_GYROSCOPE_UNCALIBRATED,
-            Sensor.TYPE_HEART_BEAT,
-            //
-            Sensor.TYPE_HEART_RATE,
-            Sensor.TYPE_LIGHT,
-            Sensor.TYPE_LINEAR_ACCELERATION,
-            Sensor.TYPE_LOW_LATENCY_OFFBODY_DETECT,
-            Sensor.TYPE_MAGNETIC_FIELD,
-            //
-            Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED,
-            Sensor.TYPE_MOTION_DETECT,
-            Sensor.TYPE_POSE_6DOF,
-            Sensor.TYPE_PRESSURE,
-            Sensor.TYPE_PROXIMITY,
-            //
-            Sensor.TYPE_RELATIVE_HUMIDITY,
-            Sensor.TYPE_ROTATION_VECTOR,
-            Sensor.TYPE_SIGNIFICANT_MOTION,
-            Sensor.TYPE_STATIONARY_DETECT,
-            Sensor.TYPE_STEP_COUNTER,
-            //
-            Sensor.TYPE_STEP_DETECTOR
-    };
-
-    private String[] sensorNameList = {
-            "ACCELEROMETER",
-            "ACCELEROMETER_UNCALIBRATED",
-            "AMBIENT_TEMPERATURE",
-            "DEVICE_PRIVATE_BASE",
-            "GAME_ROTATION_VECTOR",
-            //
-            "GEOMAGNETIC_ROTATION_VECTOR",
-            "GRAVITY",
-            "GYROSCOPE",
-            "GYROSCOPE_UNCALIBRATED",
-            "HEART_BEAT",
-            //
-            "HEART_RATE",
-            "LIGHT",
-            "LINEAR_ACCELERATION",
-            "LOW_LATENCY_OFFBODY_DETECT",
-            "MAGNETIC_FIELD",
-            //
-            "MAGNETIC_FIELD_UNCALIBRATED",
-            "MOTION_DETECT",
-            "POSE_6DOF",
-            "PRESSURE",
-            "PROXIMITY",
-            //
-            "RELATIVE_HUMIDITY",
-            "ROTATION_VECTOR",
-            "SIGNIFICANT_MOTION",
-            "STATIONARY_DETECT",
-            "STEP_COUNTER",
-            //
-            "STEP_DETECTOR",
-    };
+    private TextView textView, textInfo;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.text_view);
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+
+        textInfo = findViewById(R.id.text_info);
+        textView = findViewById(R.id.text_view);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        boolean flg = true;
-        if(flg)
-            checkSensors();
-        else
-            checkSensorsEach();
+        Sensor accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        sensorManager.registerListener(this, accel, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    private void checkSensors() {
-        List<Sensor> sensers = sensorManager.getSensorList(Sensor.TYPE_ALL);
-        StringBuffer strListbuf = new StringBuffer("Sensor List:\n\n");
-        int count = 0;
-
-        for(Sensor sensor : sensers) {
-            ++count;
-            String str = String.format("%s: %s\n", String.valueOf(count + 1), sensor.getName());
-            strListbuf.append(str);
-        }
-
-        textView.setText(strListbuf);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
     }
 
-    private void checkSensorsEach() {
-        StringBuffer strbuf = new StringBuffer("Sensor List :\n\n");
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float sensorX, sensorY, sensorZ;
 
-        for(int i = 0; i < sensorList.length; ++i) {
-            Sensor sensor = sensorManager.getDefaultSensor(sensorList[i]);
+        if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            sensorX = event.values[0];
+            sensorY = event.values[1];
+            sensorZ = event.values[2];
 
-            if(sensor != null) {
-                String strTmp = String.format("%s: %s 使用可能\n",
-                        String.valueOf(i + 1), sensorNameList[i]);
-                strbuf.append(strTmp);
-            }
+            String strTmp = "加速度センサー\n"
+                    + " X: " + sensorX + "\n"
+                    + " Y: " + sensorY + "\n"
+                    + " Z: " + sensorZ;
+            textView.setText(strTmp);
+
+            showInfo(event);
+
         }
+    }
 
-        textView.setText(strbuf);
+    private void showInfo(SensorEvent event) {
+        // センサー名
+        StringBuffer info = new StringBuffer("Name: ");
+        info.append(event.sensor.getName());
+        info.append("\n");
+
+        // ベンダー名
+        info.append("Vendor: ");
+        info.append(event.sensor.getVendor());
+        info.append("\n");
+
+        // 型番
+        info.append("Type: ");
+        info.append(event.sensor.getType());
+        info.append("\n");
+
+        // 最小遅れ
+        int data = event.sensor.getMinDelay();
+        info.append("Mindelay: ");
+        info.append(String.valueOf(data));
+        info.append(" usec\n");
+
+        // 最大遅れ
+        data = event.sensor.getMaxDelay();
+        info.append("Maxdelay: ");
+        info.append(String.valueOf(data));
+        info.append(" usec\n");
+
+        // レポートモード
+        data = event.sensor.getReportingMode();
+
+        String stinfo = "unknown";
+        if(data == 0)
+            stinfo = "REPORTING_MODE_CONTINUOUS";
+        else if(data == 1)
+            stinfo = "REPORTING_MODE_ON_CHANGE";
+        else if(data == 2)
+            stinfo = "REPORTING_MODE_ONE_SHOT";
+
+        info.append("ReportingMode: ");
+        info.append(stinfo);
+        info.append("\n");
+
+        // 最大レンジ
+        info.append("MaxRange: ");
+        float fData = event.sensor.getMaximumRange();
+        info.append(String.valueOf(fData));
+        info.append("\n");
+
+        // 分解能
+        info.append("Resolution: ");
+        fData = event.sensor.getResolution();
+        info.append(String.valueOf(fData));
+        info.append(" m/s^2\n");
+
+        // 消費電流
+        info.append("Power: ");
+        fData = event.sensor.getPower();
+        info.append(String.valueOf(fData));
+        info.append(" mA\n");
+
+        textInfo.setText(info);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        
     }
 }
-
