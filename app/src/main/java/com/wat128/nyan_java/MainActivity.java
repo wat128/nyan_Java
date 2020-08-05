@@ -15,6 +15,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaSession2Service;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -40,46 +41,31 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final static int RESULT_CAMERA = 1001;
-    private ImageView imageView;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageView = findViewById(R.id.image_view);
-
-        Button cameraButton = findViewById(R.id.camera_button);
-        cameraButton.setOnClickListener(new View.OnClickListener() {
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                if (intent.resolveActivity(getPackageManager()) != null)
-                    startActivityForResult(intent, RESULT_CAMERA);
-
+                callMailer();
             }
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_CAMERA) {
-            Bitmap bitmap;
-            if (data.getExtras() == null) {
-                return;
-            }
-            else {
-                bitmap = (Bitmap) data.getExtras().get("data");
-                if (bitmap != null) {
-                    int bmpWidth = bitmap.getWidth();
-                    int bmpHeight = bitmap.getHeight();
-                }
-            }
+    private void callMailer() {
+        String[] addresses = {"xxx@yyy.zzz"};
 
-            imageView.setImageBitmap(bitmap);
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "test mail");
+        intent.putExtra(Intent.EXTRA_TEXT, "本文");
+
+        if(intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
         }
     }
 }

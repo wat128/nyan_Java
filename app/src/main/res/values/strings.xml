@@ -72,5 +72,7 @@
     <string name="clear">Clear</string>
 
     <string name="change">Change</string>
+    <string name="mail_send">メールを送信</string>
+    <string name="mailer_start">メーラー起動</string>
 
 </resources>
