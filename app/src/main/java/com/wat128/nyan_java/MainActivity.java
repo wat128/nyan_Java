@@ -16,15 +16,15 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private WebView webView;
-    private String accessUrl = "https://google.com";
+    private String accessUrl = "https://akira-watson.com";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button buttonWebView = findViewById(R.id.button_01);
-        Button buttonBrowser = findViewById(R.id.button_02);
+        Button buttonWebView = findViewById(R.id.button1);
+        Button buttonBrowser = findViewById(R.id.button2);
 
         buttonWebView.setOnClickListener(new View.OnClickListener() {
             @Override
