@@ -8,20 +8,18 @@
     android:background="#ccffdd"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/text_view"
-        android:text="@string/text"
-        android:textSize="30sp"
-        android:layout_margin="10dp"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/button1"
+        android:text="WebView"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/button"
-        android:text="@string/button"
-        android:layout_margin="30dp"
-        android:textSize="30sp"
-        android:layout_width="wrap_content"
+        android:id="@+id/button2"
+        android:text="Browser"
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
 </LinearLayout>
