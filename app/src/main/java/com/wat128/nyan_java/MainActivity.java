@@ -2,6 +2,7 @@ package com.wat128.nyan_java;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.BitmapCompat;
 
 import android.app.Activity;
 import android.content.Context;
@@ -39,6 +40,7 @@ import org.w3c.dom.Text;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -46,9 +48,9 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int RESULT_PICK_IMAGEFILE = 1001;
+    private static final int RESULT_SAVE_IMAGE= 1002;
     private TextView textView;
-    private ImageView imageView;
+    private Bitmap bmp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,17 +58,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textView = findViewById(R.id.text_view);
-        imageView = findViewById(R.id.image_view);
+        ImageView imageView = findViewById(R.id.image_view);
+        imageView.setImageBitmap(bmp);
 
         Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("*/*");
+                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_TITLE, "sample_image.jpg");
 
-                startActivityForResult(intent, RESULT_PICK_IMAGEFILE);
+                startActivityForResult(intent, RESULT_SAVE_IMAGE);
             }
         });
     }
@@ -75,33 +78,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RESULT_PICK_IMAGEFILE && resultCode == Activity.RESULT_OK) {
+        if(requestCode == RESULT_SAVE_IMAGE && resultCode == Activity.RESULT_OK) {
 
             if(data.getData() != null) {
 
-                ParcelFileDescriptor pfDesctiptor = null;
-                try{
-                    Uri uri = data.getData();
+                Uri uri = data.getData();
 
-                    textView.setText(String.format(Locale.US, "Uri: %s",uri.toString()));
+                textView.setText(String.format(Locale.US, "Uri: %s",uri.toString()));
 
-                    pfDesctiptor = getContentResolver().openFileDescriptor(uri, "r");
-                    if(pfDesctiptor != null) {
-                        FileDescriptor fileDescriptor = pfDesctiptor.getFileDescriptor();
-                        Bitmap bmp = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-                        pfDesctiptor.close();
-                        imageView.setImageBitmap(bmp);
-                    }
-                } catch (IOException e){
+                try(OutputStream outputStream = getContentResolver().openOutputStream(uri);){
+                    bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                } catch (Exception e){
                     e.printStackTrace();
-                } finally {
-                    try{
-                        if(pfDesctiptor != null) {
-                            pfDesctiptor.close();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         }
