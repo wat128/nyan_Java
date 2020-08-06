@@ -10,24 +10,18 @@
 
     <TextView
         android:id="@+id/text_view"
-        android:textColor="#000"
+        android:text="@string/text"
+        android:textSize="30sp"
         android:layout_margin="10dp"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
         android:id="@+id/button"
         android:text="@string/button"
-        android:layout_margin="10dp"
+        android:layout_margin="30dp"
+        android:textSize="30sp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <ImageView
-        android:id="@+id/image_view"
-        android:scaleType="centerInside"
-        android:contentDescription="@string/description"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
 </LinearLayout>

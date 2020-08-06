@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.BitmapCompat;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -23,6 +24,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.speech.RecognizerIntent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -41,6 +43,7 @@ import org.w3c.dom.Text;
 import java.io.FileDescriptor;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -48,50 +51,62 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int RESULT_SAVE_IMAGE= 1002;
+    private static final int REQUEST_CODE= 1000;
     private TextView textView;
-    private Bitmap bmp;
+
+    private int lang;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        lang = 0;
+
         textView = findViewById(R.id.text_view);
-        ImageView imageView = findViewById(R.id.image_view);
-        imageView.setImageBitmap(bmp);
 
         Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_TITLE, "sample_image.jpg");
-
-                startActivityForResult(intent, RESULT_SAVE_IMAGE);
+                speech();
             }
         });
+    }
+
+    private void speech() {
+
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+        if(lang == 0)
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.JAPAN.toString());
+        else if (lang == 1)
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH.toString());
+        else if (lang == 2)
+            intent.putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true);
+        else
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 100);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "音声を入力");
+
+        try{
+            startActivityForResult(intent, REQUEST_CODE);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            textView.setText(R.string.error);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RESULT_SAVE_IMAGE && resultCode == Activity.RESULT_OK) {
+        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            ArrayList<String> candidates = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-            if(data.getData() != null) {
-
-                Uri uri = data.getData();
-
-                textView.setText(String.format(Locale.US, "Uri: %s",uri.toString()));
-
-                try(OutputStream outputStream = getContentResolver().openOutputStream(uri);){
-                    bmp.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
+            if(candidates.size() > 0)
+                textView.setText(candidates.get(0));
         }
     }
 }
