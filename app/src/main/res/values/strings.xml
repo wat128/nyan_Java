@@ -75,4 +75,13 @@
     <string name="mail_send">メールを送信</string>
     <string name="mailer_start">メーラー起動</string>
 
+    <string name="contents">
+        "test1\n"
+        "test2\n"
+        "test3\n"
+        "test4\n"
+        "test5\n"
+        "test6\n"
+    </string>
+
 </resources>

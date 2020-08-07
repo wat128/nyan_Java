@@ -9,16 +9,23 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button1"
-        android:text="WebView"
+        android:id="@+id/button"
+        android:text="@string/button"
         android:layout_margin="20dp"
-        android:layout_width="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/button2"
-        android:text="Browser"
-        android:layout_margin="20dp"
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
+    <TextView
+        android:id="@+id/text"
+        android:textColor="#ff0"
+        android:layout_margin="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

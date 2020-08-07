@@ -10,62 +10,39 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Button;
-
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private WebView webView;
-    private String accessUrl = "https://akira-watson.com";
+    private LinearLayout root;
+    private boolean flag = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button buttonWebView = findViewById(R.id.button1);
-        Button buttonBrowser = findViewById(R.id.button2);
+        root = findViewById(R.id.root);
 
-        buttonWebView.setOnClickListener(new View.OnClickListener() {
+        TextView textView = findViewById(R.id.text);
+        textView.setText(R.string.contents);
+
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                setContentView(R.layout.web);
-                webView = findViewById(R.id.web_view);
-
-                webView.getSettings().setJavaScriptEnabled(true);
-                webView.getSettings().setDomStorageEnabled(true);
-
-                getWindow().setFlags(
-                        WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-                        WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-
-                webView.loadUrl(accessUrl);
+                if(!flag){
+                    getLayoutInflater().inflate(R.layout.inflate_layout, root);
+                    flag = true;
+                }
+                else {
+                    root.removeAllViews();
+                    flag = false;
+                }
             }
         });
 
-        buttonBrowser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse(accessUrl);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
-        });
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if( (event.getAction() == KeyEvent.ACTION_DOWN )
-                && (keyCode == KeyEvent.KEYCODE_BACK) ){
-
-            if(webView.canGoBack())
-                webView.goBack();
-            else
-                finish();
-        }
-
-        return super.onKeyDown(keyCode, event);
     }
 }
