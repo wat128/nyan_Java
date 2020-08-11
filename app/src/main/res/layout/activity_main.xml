@@ -22,8 +22,8 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/button_fadeout"
-            android:text="@string/fadeout"
+            android:id="@+id/button_rotate"
+            android:text="@string/rotate"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"/>

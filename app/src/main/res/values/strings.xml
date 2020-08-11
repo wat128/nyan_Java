@@ -86,5 +86,6 @@
 
     <string name="fadeout">Fade out</string>
     <string name="fadein">Fade In</string>
+    <string name="rotate">Rotate</string>
 
 </resources>

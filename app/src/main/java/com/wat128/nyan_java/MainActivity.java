@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -35,17 +36,23 @@ public class MainActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.carlos);
 
-        Button button = findViewById(R.id.button_fadeout);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button button_rotate = findViewById(R.id.button_rotate);
+        button_rotate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                startRotationXml();
+                startRotation();
             }
         });
     }
 
-    private void startRotationXml(){
-        Animation animation = AnimationUtils.loadAnimation(this,
-                R.anim.rotate);
+    private void startRotation(){
+        RotateAnimation animation = new RotateAnimation(0.0f, 360.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        animation.setDuration(3000);
+        animation.setRepeatCount(1);
+        animation.setFillAfter(true);
+
         imageView.startAnimation(animation);
     }
 }
