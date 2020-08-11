@@ -17,6 +17,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
+import android.view.animation.ScaleAnimation;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,14 +40,21 @@ public class MainActivity extends AppCompatActivity {
         Button button_rotate = findViewById(R.id.button);
         button_rotate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                startScalingXml();
+                startScaling();
             }
         });
     }
 
-    private void startScalingXml(){
-        Animation animation = AnimationUtils.loadAnimation(this,
-                R.anim.scale_animation);
+    private void startScaling(){
+        ScaleAnimation animation = new ScaleAnimation(
+                1.0f, 4.0f, 1.0f, 4.0f,
+                Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+
+        animation.setDuration(2000);
+        animation.setRepeatCount(0);
+        animation.setFillAfter(true);
+        imageView.startAnimation(animation);
 
         imageView.startAnimation(animation);
     }
