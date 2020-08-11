@@ -36,22 +36,17 @@ public class MainActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.carlos);
 
-        Button button_rotate = findViewById(R.id.button_rotate);
+        Button button_rotate = findViewById(R.id.button);
         button_rotate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                startRotation();
+                startScalingXml();
             }
         });
     }
 
-    private void startRotation(){
-        RotateAnimation animation = new RotateAnimation(0.0f, 360.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
-
-        animation.setDuration(3000);
-        animation.setRepeatCount(1);
-        animation.setFillAfter(true);
+    private void startScalingXml(){
+        Animation animation = AnimationUtils.loadAnimation(this,
+                R.anim.scale_animation);
 
         imageView.startAnimation(animation);
     }
