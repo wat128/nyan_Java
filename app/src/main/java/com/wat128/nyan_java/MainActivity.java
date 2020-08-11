@@ -13,8 +13,11 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,63 +25,39 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final int REQUEST_PERMISSION = 10;
+    private ImageView imageView;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        if(Build.VERSION.SDK_INT >= 23)
-            checkPermission();
-        else
-            readContentActivity();
+        imageView = findViewById(R.id.carlos);
 
-    }
-
-    public void checkPermission() {
-        if(checkSelfPermission(
-                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-
-            readContentActivity();
-
-        }
-        else {
-            requestLocationPermission();
-        }
-    }
-
-    private void requestLocationPermission() {
-
-        if(shouldShowRequestPermissionRationale(
-                Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
-
-        }
-        else {
-            Toast toast = Toast.makeText(this, "許可されてません", Toast.LENGTH_SHORT);
-            toast.show();
-
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-        if(requestCode == REQUEST_PERMISSION) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                readContentActivity();
+        Button buttonFadeOut = findViewById(R.id.button_fadeout);
+        buttonFadeOut.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                fadeoutXml();
             }
-            else{
-                Toast toast = Toast.makeText(this, "なにもできません", Toast.LENGTH_SHORT);
-                toast.show();
+        });
+
+        Button buttonFadeIn = (Button)findViewById(R.id.button_fadein);
+        buttonFadeIn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                fadeinXml();
             }
-        }
+        });
     }
 
-    private void readContentActivity() {
-        Intent intent = new Intent(getApplication(), ReadContent.class);
-        startActivity(intent);
+    private void fadeoutXml(){
+        Animation animation= AnimationUtils.loadAnimation(this,
+                R.anim.alpha_fadeout);
+        imageView.startAnimation(animation);
+    }
+
+    private void fadeinXml(){
+        Animation animation= AnimationUtils.loadAnimation(this,
+                R.anim.alpha_fadein);
+        imageView.startAnimation(animation);
     }
 }

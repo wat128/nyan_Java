@@ -84,4 +84,7 @@
         "test6\n"
     </string>
 
+    <string name="fadeout">Fade out</string>
+    <string name="fadein">Fade In</string>
+
 </resources>
