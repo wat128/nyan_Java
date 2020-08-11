@@ -35,32 +35,17 @@ public class MainActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.carlos);
 
-        Button buttonFadeOut = findViewById(R.id.button_fadeout);
-        buttonFadeOut.setOnClickListener(new View.OnClickListener() {
+        Button button = findViewById(R.id.button_fadeout);
+        button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                fadeout();
-            }
-        });
-
-        Button buttonFadeIn = (Button)findViewById(R.id.button_fadein);
-        buttonFadeIn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                fadein();
+                startRotationXml();
             }
         });
     }
 
-    private void fadeout(){
-        AlphaAnimation animation = new AlphaAnimation(1.0f, 0.0f);
-        animation.setDuration(3000);
-        animation.setFillAfter(true);
-        imageView.startAnimation(animation);
-    }
-
-    private void fadein(){
-        AlphaAnimation animation = new AlphaAnimation(0.0f, 1.0f);
-        animation.setDuration(3000);
-        animation.setFillAfter(true);
+    private void startRotationXml(){
+        Animation animation = AnimationUtils.loadAnimation(this,
+                R.anim.rotate);
         imageView.startAnimation(animation);
     }
 }
