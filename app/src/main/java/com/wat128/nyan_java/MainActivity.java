@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
@@ -37,27 +38,29 @@ public class MainActivity extends AppCompatActivity {
         Button buttonFadeOut = findViewById(R.id.button_fadeout);
         buttonFadeOut.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                fadeoutXml();
+                fadeout();
             }
         });
 
         Button buttonFadeIn = (Button)findViewById(R.id.button_fadein);
         buttonFadeIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                fadeinXml();
+                fadein();
             }
         });
     }
 
-    private void fadeoutXml(){
-        Animation animation= AnimationUtils.loadAnimation(this,
-                R.anim.alpha_fadeout);
+    private void fadeout(){
+        AlphaAnimation animation = new AlphaAnimation(1.0f, 0.0f);
+        animation.setDuration(3000);
+        animation.setFillAfter(true);
         imageView.startAnimation(animation);
     }
 
-    private void fadeinXml(){
-        Animation animation= AnimationUtils.loadAnimation(this,
-                R.anim.alpha_fadein);
+    private void fadein(){
+        AlphaAnimation animation = new AlphaAnimation(0.0f, 1.0f);
+        animation.setDuration(3000);
+        animation.setFillAfter(true);
         imageView.startAnimation(animation);
     }
 }
