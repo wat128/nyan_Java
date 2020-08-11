@@ -31,7 +31,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private ImageView imageView;
-    private TranslateAnimation animation;
+    private Animation animation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,45 +39,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         imageView = findViewById(R.id.carlos);
+        animation = AnimationUtils.loadAnimation(this, R.anim.animation_set);
 
         Button button_rotate = findViewById(R.id.button);
         button_rotate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                startTranslate();
+                imageView.startAnimation(animation);
             }
         });
-    }
-
-    private void startTranslate() {
-
-        int type = 0;
-
-        if(type == 0) {
-            animation = new TranslateAnimation(
-                    Animation.ABSOLUTE, 0.0f,
-                    Animation.ABSOLUTE, 500.0f,
-                    Animation.ABSOLUTE, 0.0f,
-                    Animation.ABSOLUTE, 1200.f);
-        }
-        else if(type == 1) {
-            animation = new TranslateAnimation(
-                    Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, 0.9f,
-                    Animation.RELATIVE_TO_SELF, 0.0f,
-                    Animation.RELATIVE_TO_SELF, 1.8f);
-        }
-        else if(type == 2) {
-            animation = new TranslateAnimation(
-                    Animation.RELATIVE_TO_PARENT, 0.0f,
-                    Animation.RELATIVE_TO_PARENT, 0.4f,
-                    Animation.RELATIVE_TO_PARENT, 0.0f,
-                    Animation.RELATIVE_TO_PARENT, 0.6f);
-        }
-
-        animation.setDuration(2000);
-        animation.setRepeatCount(0);
-        animation.setFillAfter(true);
-
-        imageView.startAnimation(animation);
     }
 }
