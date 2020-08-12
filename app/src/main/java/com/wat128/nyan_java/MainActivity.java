@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 0.0f,
                 360.0f );
 
-        ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
+        objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
                 imageView,
                 vhX ,
                 vhY ,
