@@ -88,4 +88,7 @@
     <string name="fadein">Fade In</string>
     <string name="rotate">Rotate</string>
 
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+
 </resources>

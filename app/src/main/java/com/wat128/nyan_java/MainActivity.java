@@ -2,6 +2,7 @@ package com.wat128.nyan_java;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
@@ -11,9 +12,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 
-public class MainActivity extends AppCompatActivity implements Animator.AnimatorListener {
+public class MainActivity extends AppCompatActivity {
 
     private ImageView imageView;
+    private ObjectAnimator objectAnimator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,33 @@ public class MainActivity extends AppCompatActivity implements Animator.Animator
             public void onClick(View v) {
                 setAnimetion();
             }
+        });
+
+        Button buttonPause = findViewById(R.id.button_pause);
+        buttonPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(objectAnimator != null) {
+                    if(objectAnimator.isRunning()) {
+                        objectAnimator.pause();
+                    }
+                }
+            }
+        });
+
+        final Button buttonResumed = findViewById(R.id.button_resumed);
+        buttonResumed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(objectAnimator != null) {
+                    if(objectAnimator.isPaused()){
+                        objectAnimator.resume();
+                    }
+                }
+            }
+
         });
     }
 
@@ -55,27 +84,21 @@ public class MainActivity extends AppCompatActivity implements Animator.Animator
                 vhRotaion );
 
         objectAnimator.setDuration(3000);
-        objectAnimator.addListener(this);
+
+        objectAnimator.addPauseListener(new AnimatorListenerAdapter() {
+
+            @Override
+            public void onAnimationPause(Animator animation) {
+                Log.d("debug", "onAnimationPause()");
+            }
+
+            @Override
+            public void onAnimationResume(Animator animation) {
+                Log.d("debug", "onAnimationResume()");
+
+            }
+        });
+
         objectAnimator.start();
-    }
-
-    @Override
-    public void onAnimationStart(Animator animation) {
-        Log.d("debug","onAnimationStart()");
-    }
-
-    @Override
-    public void onAnimationCancel(Animator animation) {
-        Log.d("debug","onAnimationCancel()");
-    }
-
-    @Override
-    public void onAnimationEnd(Animator animation) {
-        Log.d("debug","onAnimationEnd()");
-    }
-
-    @Override
-    public void onAnimationRepeat(Animator animation) {
-        Log.d("debug","onAnimationRepeat()");
     }
 }
