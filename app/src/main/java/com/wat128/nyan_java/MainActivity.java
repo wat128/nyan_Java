@@ -1,35 +1,17 @@
 package com.wat128.nyan_java;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
-import android.text.Html;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.TranslateAnimation;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Animator.AnimatorListener {
 
     private ImageView imageView;
 
@@ -38,32 +20,62 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageView = findViewById(R.id.carlos);
+        Button buttonStart = findViewById(R.id.button_start);
+        imageView = findViewById(R.id.image_view);
+        imageView.setImageResource(R.drawable.bag);
 
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                setAnime();
+        buttonStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setAnimetion();
             }
         });
     }
 
-    private void setAnime() {
-        ScaleAnimation scaleAnime = new ScaleAnimation(
-                1.0f, 0.0f, 1.0f, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f);
-        scaleAnime.setDuration(2000);
+    private void setAnimetion(){
+        PropertyValuesHolder vhX = PropertyValuesHolder.ofFloat(
+                "translationX",
+                0.0f,
+                600.0f );
 
-        RotateAnimation rotateAnime = new RotateAnimation(0.0f, 120.0f,
-                Animation.RELATIVE_TO_PARENT, 0.0f,
-                Animation.RELATIVE_TO_PARENT, 0.5f);
-        rotateAnime.setDuration(2000);
+        PropertyValuesHolder vhY = PropertyValuesHolder.ofFloat(
+                "translationY",
+                0.0f,
+                1200.0f );
 
-        AnimationSet animeSet = new AnimationSet(true);
-        animeSet.addAnimation(scaleAnime);
-        animeSet.addAnimation(rotateAnime);
+        PropertyValuesHolder vhRotaion = PropertyValuesHolder.ofFloat(
+                "rotation",
+                0.0f,
+                360.0f );
 
-        imageView.startAnimation(animeSet);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
+                imageView,
+                vhX ,
+                vhY ,
+                vhRotaion );
+
+        objectAnimator.setDuration(3000);
+        objectAnimator.addListener(this);
+        objectAnimator.start();
+    }
+
+    @Override
+    public void onAnimationStart(Animator animation) {
+        Log.d("debug","onAnimationStart()");
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+        Log.d("debug","onAnimationCancel()");
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        Log.d("debug","onAnimationEnd()");
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+        Log.d("debug","onAnimationRepeat()");
     }
 }
