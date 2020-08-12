@@ -11,17 +11,39 @@
 
     <ImageView
         android:id="@+id/image_view"
+        android:background="@drawable/animation_crossfade"
         android:contentDescription="@string/description"
         android:scaleType="fitCenter"
         android:layout_gravity="center_horizontal"
         android:layout_width="300dp"
         android:layout_height="300dp"/>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="@string/button"/>
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/button_start"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/start"/>
+
+        <Button
+            android:id="@+id/button_reverse"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/reverse"/>
+
+        <Button
+            android:id="@+id/button_reset"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/reset"/>
+
+    </LinearLayout>
 
 </LinearLayout>
