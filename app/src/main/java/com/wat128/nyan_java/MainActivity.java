@@ -16,39 +16,9 @@ import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TransitionDrawable transitionDrawable;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ImageView imageView =findViewById(R.id.image_view);
-        transitionDrawable = (TransitionDrawable)imageView.getBackground();
-        transitionDrawable.setCrossFadeEnabled(true);
-
-        Button buttonStart = findViewById(R.id.button_start);
-        buttonStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                transitionDrawable.startTransition(3000);
-            }
-        });
-
-        Button buttonReserve = findViewById(R.id.button_reverse);
-        buttonReserve.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                transitionDrawable.reverseTransition(1000);
-            }
-        });
-
-        Button buttonReset = findViewById(R.id.button_reset);
-        buttonReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                transitionDrawable.resetTransition();
-            }
-        });
     }
 }
